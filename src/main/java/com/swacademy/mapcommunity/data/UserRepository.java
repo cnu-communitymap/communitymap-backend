@@ -11,7 +11,6 @@ public interface UserRepository {
     boolean logout (LoginInfo loginInfo);
     User update(User user);
     User getUser(UUID userId);
-
     User register(User user);
 
 }

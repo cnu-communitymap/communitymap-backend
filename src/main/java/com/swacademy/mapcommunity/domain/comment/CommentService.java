@@ -24,4 +24,6 @@ public class CommentService {
     boolean upLike(UUID commentId){
         return commentRepository.upLike(commentId);
     }
+
+    //@Todo 나중에....void deleteComment(){} 추가
 }
