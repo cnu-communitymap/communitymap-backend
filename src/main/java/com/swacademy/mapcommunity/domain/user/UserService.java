@@ -17,7 +17,7 @@ public class UserService {
 
     // @Todo 레포지토리 함수 try-catch 감싸야 함?
     /**
-     * @param userId: UUID
+     * @param userId UUID
      * @return If userId is invalid id, return null. else return User object
      */
     User getUser(UUID userId) {
@@ -39,7 +39,7 @@ public class UserService {
         return user;
     }
 
-    // @Todo token 적용
+    // @TODO ADD Authorization logic
     public User updateUser(User user) {
         try {
             userRepository.update(user);
@@ -49,7 +49,7 @@ public class UserService {
         return user;
     }
 
-    // @Todo token 적용
+    // @TODO ADD Authorization logic
     public boolean withdrawal(User user) {
         try {
             userRepository.delete(user);
