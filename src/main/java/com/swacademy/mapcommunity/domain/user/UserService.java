@@ -22,17 +22,19 @@ public class UserService {
     }
 
     //@ToDo 회원가입 및 아이디 중복 검사
-    public UUID join(User user){
-        validateDuplicatedMember(user);
-        UserRepository.register(user);
+    public UUID join(User user) throws Exception {
+        if (validateDuplicatedMember(user)) UserRepository.register(user);
+        else throw new Exception();
+
         return user.getUserId();
     }
     //@ToDo 이미 존재하는 회원인지 검사
-    private void validateDuplicatedMember(User user){
+    private boolean validateDuplicatedMember(User user){
         List<User> findMembers = (List<User>) userRepository.getUser(user.getUserId());
-        if(!findMembers.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
+//        if(!findMembers.isEmpty()){
+//            throw new IllegalStateException("이미 존재하는 회원입니다.");
+//        }
+        return findMembers.isEmpty();
     }
 
     //@ToDo 회원 정보 update 메소드 service에 필요한가?
