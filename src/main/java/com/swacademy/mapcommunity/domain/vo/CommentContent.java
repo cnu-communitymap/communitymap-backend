@@ -9,6 +9,7 @@ public record CommentContent(
 ) {
     public CommentContent {
         // @TODO title, content, postData 제약 생각해보기.
+        // 제약1. title & content가 null이면 throw
         if (like < 0) throw new IllegalArgumentException("Like value cannot be negative.");
     }
 }
