@@ -4,7 +4,6 @@ import com.swacademy.mapcommunity.data.UserRepository;
 import com.swacademy.mapcommunity.domain.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -16,27 +15,53 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    //회원 조회.
-    User getUser(UUID userId){
-        return userRepository.getUser(userId);
+    // @Todo 레포지토리 함수 try-catch 감싸야 함?
+    /**
+     * @param userId: UUID
+     * @return If userId is invalid id, return null. else return User object
+     */
+    User getUser(UUID userId) {
+        var user = userRepository.getUserById(userId);
+        if (user.isEmpty()) return null;
+        else return user.get();
     }
 
-    //@ToDo 회원가입 및 아이디 중복 검사
-    public UUID join(User user) throws Exception {
-        if (validateDuplicatedMember(user)) UserRepository.register(user);
-        else throw new Exception();
-
-        return user.getUserId();
-    }
-    //@ToDo 이미 존재하는 회원인지 검사
-    private boolean validateDuplicatedMember(User user){
-        List<User> findMembers = (List<User>) userRepository.getUser(user.getUserId());
-//        if(!findMembers.isEmpty()){
-//            throw new IllegalStateException("이미 존재하는 회원입니다.");
-//        }
-        return findMembers.isEmpty();
+    User getUser(String email) {
+        var user = userRepository.getUserByEmail(email);
+        if (user.isEmpty()) return null;
+        else return user.get();
     }
 
-    //@ToDo 회원 정보 update 메소드 service에 필요한가?
+    // @Todo 여기서 Exception 발생시키는 게 맞나?
+    public User register(User user) {
+        if (validateDuplicateUserEmail(user)) userRepository.insert(user);
+        else throw new RuntimeException("Duplicated user email.");
+        return user;
+    }
+
+    // @Todo token 적용
+    public User updateUser(User user) {
+        try {
+            userRepository.update(user);
+        } catch (RuntimeException e) {
+            return null;
+        }
+        return user;
+    }
+
+    // @Todo token 적용
+    public boolean withdrawal(User user) {
+        try {
+            userRepository.delete(user);
+        } catch (RuntimeException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateDuplicateUserEmail(User user){
+        User findUser = this.getUser(user.getUserId());
+        return findUser != null;
+    }
 
 }
