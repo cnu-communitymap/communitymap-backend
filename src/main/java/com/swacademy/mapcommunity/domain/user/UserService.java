@@ -1,6 +1,6 @@
 package com.swacademy.mapcommunity.domain.user;
 
-import com.swacademy.mapcommunity.data.UserRepository;
+import com.swacademy.mapcommunity.domain.repository.UserRepository;
 import com.swacademy.mapcommunity.domain.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class UserService {
 
     // @Todo 여기서 Exception 발생시키는 게 맞나?
     public User register(User user) {
-        if (validateDuplicateUserEmail(user)) userRepository.insert(user);
+        if (validateDuplicateUserEmail(user)) userRepository.insertUser(user);
         else throw new RuntimeException("Duplicated user email.");
         return user;
     }
@@ -42,7 +42,7 @@ public class UserService {
     // @TODO ADD Authorization logic
     public User updateUser(User user) {
         try {
-            userRepository.update(user);
+            userRepository.updateUser(user);
         } catch (RuntimeException e) {
             return null;
         }
@@ -52,7 +52,7 @@ public class UserService {
     // @TODO ADD Authorization logic
     public boolean withdrawal(User user) {
         try {
-            userRepository.delete(user);
+            userRepository.deleteUser(user);
         } catch (RuntimeException e) {
             return false;
         }

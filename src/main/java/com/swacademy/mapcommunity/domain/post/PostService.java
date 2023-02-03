@@ -1,11 +1,12 @@
 package com.swacademy.mapcommunity.domain.post;
 
-import com.swacademy.mapcommunity.data.PostRepository;
+import com.swacademy.mapcommunity.domain.repository.PostRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.vo.Position;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,7 +36,7 @@ public class PostService {
         // @TODO postRepository.registerPost의 구현도 다시 생각해봐야 함. Post를 생성해서 넘겨야 하는지 내용만 넘기는지.
         Post newPost = new Post(UUID.randomUUID(), userId, title, content, postDate, like, position);
         try {
-            return postRepository.registerPost(newPost);
+            return postRepository.insertPost(newPost);
         } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
@@ -51,7 +52,7 @@ public class PostService {
     public Post registerPost(UUID userId, String title, String content, Position position) {
         Post newPost = new Post(UUID.randomUUID(), userId, title, content, LocalDateTime.now(), 0, position);
         try {
-            return postRepository.registerPost(newPost);
+            return postRepository.insertPost(newPost);
         } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
@@ -63,7 +64,24 @@ public class PostService {
      */
     public Post getPost(UUID postId) {
         try {
-            return postRepository.getPost(postId);
+            var post = postRepository.getPostById(postId);
+            if (post.isEmpty()) return null;
+            else return post.get();
+        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+            return null;
+        }
+    }
+
+    /**
+     * Returns the posts in a range based on the current location.
+     * @param position Position
+     * @return Returns list of Post.
+     * @see Position
+     */
+    public List<Post> getPostsByPosition(Position position) {
+        // @TODO MySQL에서 제공하는 함수로 검색할지, 여기서 범위를 지정하여 검색할지 결정.
+        try {
+            return postRepository.getPostsByPosition(position);
         } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
@@ -76,7 +94,7 @@ public class PostService {
      */
     public Post upLike(UUID postId) {
         // @TODO ADD Authorization logic
-        Post targetPost = getPost(postId);
+        Post targetPost = this.getPost(postId);
         if (targetPost == null) return null;
         targetPost.upLike();
         try {
