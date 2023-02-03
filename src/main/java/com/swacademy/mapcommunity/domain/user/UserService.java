@@ -53,9 +53,8 @@ public class UserService {
     @Nullable
     public User register(User user) {
         try {
-            if (validateDuplicateUserEmail(user)) userRepository.insertUser(user);
-            else throw new RuntimeException("Duplicated user email.");
-            return user;
+            if (validateDuplicateUserEmail(user)) return userRepository.insertUser(user);
+            else return null;  // throw new RuntimeException("Duplicated user email.");
         } catch (RuntimeException e) {
             return null;
         }
@@ -69,11 +68,10 @@ public class UserService {
     public User updateUser(User user) {
         // @TODO ADD Authorization logic
         try {
-            userRepository.updateUser(user);
+            return userRepository.updateUser(user);
         } catch (RuntimeException e) {
             return null;
         }
-        return user;
     }
 
     /**
