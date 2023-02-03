@@ -2,6 +2,7 @@ package com.swacademy.mapcommunity.domain.user;
 
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
 import com.swacademy.mapcommunity.domain.entity.User;
+import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -15,32 +16,58 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // @Todo 레포지토리 함수 try-catch 감싸야 함?
     /**
      * @param userId UUID
-     * @return If userId is invalid id, return null. else return User object
+     * @return If userId is invalid id, return null. Else return User object.
      */
+    @Nullable
     User getUser(UUID userId) {
-        var user = userRepository.getUserById(userId);
-        if (user.isEmpty()) return null;
-        else return user.get();
+        try {
+            var user = userRepository.getUserById(userId);
+            if (user.isEmpty()) return null;
+            else return user.get();
+        } catch (RuntimeException e) {
+            return null;
+        }
     }
 
+    /**
+     * @param email String
+     * @return If giving email is invalid email, return null. Else return User object.
+     */
+    @Nullable
     User getUser(String email) {
-        var user = userRepository.getUserByEmail(email);
-        if (user.isEmpty()) return null;
-        else return user.get();
+        try {
+            var user = userRepository.getUserByEmail(email);
+            if (user.isEmpty()) return null;
+            else return user.get();
+        } catch (RuntimeException e) {
+            return null;
+        }
     }
 
-    // @Todo 여기서 Exception 발생시키는 게 맞나?
+    /**
+     * @param user User
+     * @return If register process failed, return null. Else return User object.
+     */
+    @Nullable
     public User register(User user) {
-        if (validateDuplicateUserEmail(user)) userRepository.insertUser(user);
-        else throw new RuntimeException("Duplicated user email.");
-        return user;
+        try {
+            if (validateDuplicateUserEmail(user)) userRepository.insertUser(user);
+            else throw new RuntimeException("Duplicated user email.");
+            return user;
+        } catch (RuntimeException e) {
+            return null;
+        }
     }
 
-    // @TODO ADD Authorization logic
+    /**
+     * @param user User
+     * @return If update process failed, return null. Else return updated User object.
+     */
+    @Nullable
     public User updateUser(User user) {
+        // @TODO ADD Authorization logic
         try {
             userRepository.updateUser(user);
         } catch (RuntimeException e) {
@@ -49,19 +76,27 @@ public class UserService {
         return user;
     }
 
-    // @TODO ADD Authorization logic
+    /**
+     * @param user User
+     * @return Deletion is succeeded or not: boolean
+     */
     public boolean withdrawal(User user) {
+        // @TODO ADD Authorization logic
         try {
             userRepository.deleteUser(user);
+            return true;
         } catch (RuntimeException e) {
             return false;
         }
-        return true;
     }
 
+    /**
+     * @param user User
+     * @return If there is no email duplicate, return true. Else return false.
+     */
     private boolean validateDuplicateUserEmail(User user){
-        User findUser = this.getUser(user.getUserId());
-        return findUser != null;
+        User findUser = this.getUser(user.getEmail());
+        return findUser == null;
     }
 
 }

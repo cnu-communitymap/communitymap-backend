@@ -3,6 +3,7 @@ package com.swacademy.mapcommunity.domain.post;
 import com.swacademy.mapcommunity.domain.repository.PostRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.vo.Position;
+import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,9 +27,10 @@ public class PostService {
      * @param postDate LocalDateTime
      * @param like int, cannot be negative.
      * @param position Position, value object.
-     * @return Post
+     * @return If failed, return null. Else return Post object.
      * @see Position
      */
+    @Nullable
     public Post registerPost(UUID userId, String title, String content, LocalDateTime postDate, int like, Position position) {
         // @TODO ADD Authorization logic
         // @TODO 일단 Authorization은 고려하지 않고 구현한다.
@@ -47,8 +49,9 @@ public class PostService {
      * @param title String, not null.
      * @param content String
      * @param position Position, value object.
-     * @return Post
+     * @return If failed, return null. Else return Post object.
      */
+    @Nullable
     public Post registerPost(UUID userId, String title, String content, Position position) {
         Post newPost = new Post(UUID.randomUUID(), userId, title, content, LocalDateTime.now(), 0, position);
         try {
@@ -59,9 +62,24 @@ public class PostService {
     }
 
     /**
-     * @param postId UUID
-     * @return Post
+     * @param postId
+     * @return Deletion is succeeded or not: boolean
      */
+    public boolean deletePost(UUID postId) {
+        // @TODO ADD Authorization logic
+        try {
+            postRepository.deletePost(postId);
+            return true;
+        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+            return false;
+        }
+    }
+
+    /**
+     * @param postId UUID
+     * @return If postId is invalid id, return null. Else return Post object.
+     */
+    @Nullable
     public Post getPost(UUID postId) {
         try {
             var post = postRepository.getPostById(postId);
@@ -75,9 +93,10 @@ public class PostService {
     /**
      * Returns the posts in a range based on the current location.
      * @param position Position
-     * @return Returns list of Post.
+     * @return If failed, return null. Else returns list of Post.
      * @see Position
      */
+    @Nullable
     public List<Post> getPostsByPosition(Position position) {
         // @TODO MySQL에서 제공하는 함수로 검색할지, 여기서 범위를 지정하여 검색할지 결정.
         try {
