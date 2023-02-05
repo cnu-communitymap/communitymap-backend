@@ -4,6 +4,7 @@ import com.swacademy.mapcommunity.domain.repository.PostRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.vo.Position;
 import jakarta.annotation.Nullable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class PostService {
         Post newPost = new Post(UUID.randomUUID(), userId, title, content, postDate, like, position);
         try {
             return postRepository.insertPost(newPost);
-        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+        } catch (DataAccessException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
     }
@@ -56,7 +57,7 @@ public class PostService {
         Post newPost = new Post(UUID.randomUUID(), userId, title, content, LocalDateTime.now(), 0, position);
         try {
             return postRepository.insertPost(newPost);
-        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+        } catch (DataAccessException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
     }
@@ -70,7 +71,7 @@ public class PostService {
         try {
             postRepository.deletePost(postId);
             return true;
-        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+        } catch (DataAccessException e) {  // @TODO 예외 직접 정의하기.
             return false;
         }
     }
@@ -85,7 +86,7 @@ public class PostService {
             var post = postRepository.getPostById(postId);
             if (post.isEmpty()) return null;
             else return post.get();
-        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+        } catch (DataAccessException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
     }
@@ -101,7 +102,7 @@ public class PostService {
         // @TODO MySQL에서 제공하는 함수로 검색할지, 여기서 범위를 지정하여 검색할지 결정.
         try {
             return postRepository.getPostsByPosition(position);
-        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+        } catch (DataAccessException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
     }
@@ -118,7 +119,7 @@ public class PostService {
         targetPost.upLike();
         try {
             return postRepository.updatePost(targetPost);
-        } catch (RuntimeException e) {  // @TODO 예외 직접 정의하기.
+        } catch (DataAccessException e) {  // @TODO 예외 직접 정의하기.
             return null;
         }
     }

@@ -32,6 +32,19 @@ public class Post {
         this.position = position;
     }
 
+    public Post(UUID postId, UUID userId, String title, String content, Position position) {
+        validateTitle(title);
+        if (postId == null) throw new IllegalArgumentException("post id cannot be null.");
+        if (userId == null) throw new IllegalArgumentException("user id cannot be null.");
+        this.postId = postId;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.postDate = LocalDateTime.now();
+        this.like = 0;
+        this.position = position;
+    }
+
     public void changeTitle(String title) {
         validateTitle(title);
         this.title = title;

@@ -3,6 +3,7 @@ package com.swacademy.mapcommunity.domain.user;
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
 import com.swacademy.mapcommunity.domain.entity.User;
 import jakarta.annotation.Nullable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class UserService {
             var user = userRepository.getUserById(userId);
             if (user.isEmpty()) return null;
             else return user.get();
-        } catch (RuntimeException e) {
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -41,7 +42,7 @@ public class UserService {
             var user = userRepository.getUserByEmail(email);
             if (user.isEmpty()) return null;
             else return user.get();
-        } catch (RuntimeException e) {
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -55,7 +56,7 @@ public class UserService {
         try {
             if (validateDuplicateUserEmail(user)) return userRepository.insertUser(user);
             else return null;  // throw new RuntimeException("Duplicated user email.");
-        } catch (RuntimeException e) {
+        } catch (DataAccessException e) {
             return null;
         }
     }
