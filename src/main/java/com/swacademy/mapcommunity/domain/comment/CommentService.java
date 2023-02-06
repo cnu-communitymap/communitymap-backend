@@ -1,6 +1,6 @@
 package com.swacademy.mapcommunity.domain.comment;
 
-import com.swacademy.mapcommunity.data.CommentRepository;
+import com.swacademy.mapcommunity.domain.repository.CommentRepository;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
