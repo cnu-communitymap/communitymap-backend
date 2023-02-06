@@ -1,4 +1,4 @@
-package com.swacademy.mapcommunity.domain.repository;
+package com.swacademy.mapcommunity.data;
 
 import com.swacademy.mapcommunity.domain.entity.Comment;
 
