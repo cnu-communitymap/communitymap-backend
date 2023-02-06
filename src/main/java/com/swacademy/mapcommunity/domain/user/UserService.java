@@ -95,7 +95,7 @@ public class UserService {
      * @return If there is no email duplicate, return true. Else return false.
      */
     private boolean validateDuplicateUserEmail(User user){
-        User findUser = this.getUser(user.getEmail());
+        User findUser = this.getUser(user.getLoginInfo().email());
         return findUser == null;
     }
 
