@@ -3,6 +3,7 @@ package com.swacademy.mapcommunity.domain.user;
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
 import com.swacademy.mapcommunity.domain.entity.User;
 import jakarta.annotation.Nullable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class UserService {
             var user = userRepository.getUserById(userId);
             if (user.isEmpty()) return null;
             else return user.get();
-        } catch (RuntimeException e) {
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -41,7 +42,7 @@ public class UserService {
             var user = userRepository.getUserByEmail(email);
             if (user.isEmpty()) return null;
             else return user.get();
-        } catch (RuntimeException e) {
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -53,10 +54,9 @@ public class UserService {
     @Nullable
     public User register(User user) {
         try {
-            if (validateDuplicateUserEmail(user)) userRepository.insertUser(user);
-            else throw new RuntimeException("Duplicated user email.");
-            return user;
-        } catch (RuntimeException e) {
+            if (validateDuplicateUserEmail(user)) return userRepository.insertUser(user);
+            else return null;  // throw new RuntimeException("Duplicated user email.");
+        } catch (DataAccessException e) {
             return null;
         }
     }
@@ -69,11 +69,10 @@ public class UserService {
     public User updateUser(User user) {
         // @TODO ADD Authorization logic
         try {
-            userRepository.updateUser(user);
+            return userRepository.updateUser(user);
         } catch (RuntimeException e) {
             return null;
         }
-        return user;
     }
 
     /**
