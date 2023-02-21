@@ -1,88 +1,69 @@
 package com.swacademy.mapcommunity.domain.entity;
 
-import com.swacademy.mapcommunity.domain.vo.Position;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
+@Entity
+@Table(name = "post")
+@Getter
+@Setter
+@DynamicInsert
 public class Post {
-    private final UUID postId;
-    private final UUID userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Lob
+    @Column(name = "content", nullable = false)
     private String content;
-    private final LocalDateTime postDate;
-    private int like;
-    private final Position position;
 
-    private static void validateTitle(String title) {
-        if (title == null || title.length() == 0) throw new IllegalArgumentException("Title is not empty.");
+    @CreationTimestamp
+    @Column(name = "post_date_time")
+    private LocalDateTime postDatetime;
+
+    /**
+     * like는 SQL 예약어이기에 오류 가능성 높음
+     * default로 0으로 하기
+     */
+    @ColumnDefault("0")
+    private int postLike;
+
+    @Column(columnDefinition = "GEOMETRY")
+    private Point geography;
+
+    //fk
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    //fk
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    //연관관계 편의 메소드
+    public void setUser(User user) {
+        if (Objects.nonNull(this.user)) {
+            this.user.getPosts().remove(this);
+        }
+        this.user = user;
+        user.getPosts().add(this);
     }
 
-    public Post(UUID postId, UUID userId, String title, String content, LocalDateTime postDate, int like, Position position) {
-        validateTitle(title);
-        if (like < 0) throw new IllegalArgumentException("Like value cannot be negative.");
-        if (postId == null) throw new IllegalArgumentException("post id cannot be null.");
-        if (userId == null) throw new IllegalArgumentException("user id cannot be null.");
-        this.postId = postId;
-        this.userId = userId;
-        this.title = title;
-        this.content = content;
-        this.postDate = postDate;
-        this.like = like;
-        this.position = position;
-    }
-
-    public Post(UUID postId, UUID userId, String title, String content, Position position) {
-        validateTitle(title);
-        if (postId == null) throw new IllegalArgumentException("post id cannot be null.");
-        if (userId == null) throw new IllegalArgumentException("user id cannot be null.");
-        this.postId = postId;
-        this.userId = userId;
-        this.title = title;
-        this.content = content;
-        this.postDate = LocalDateTime.now();
-        this.like = 0;
-        this.position = position;
-    }
-
-    public void changeTitle(String title) {
-        validateTitle(title);
-        this.title = title;
-    }
-
-    public void changeContent(String content) {
-        this.content = content;
-    }
-
-    public void upLike() {
-        this.like++;
-    }
-
-    public UUID getPostId() {
-        return postId;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getPostDate() {
-        return postDate;
-    }
-
-    public int getLike() {
-        return like;
-    }
-
-    public Position getPosition() {
-        return position;
+    public void addComment(Comment comment) {
+        comment.setPost(this);
     }
 }
