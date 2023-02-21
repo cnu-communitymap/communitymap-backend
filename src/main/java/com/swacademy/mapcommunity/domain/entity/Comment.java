@@ -1,74 +1,59 @@
 package com.swacademy.mapcommunity.domain.entity;
 
-import java.util.Date;
-import java.util.UUID;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+@Entity
+@Table(name = "comment")
+@Getter
+@Setter
+@DynamicInsert
 public class Comment {
-    private final UUID commentId;
-    private final UUID registeredPostId;
-    private final UUID userId;
-    private String commentContent;
-    private final Date commentDate;
-    private int like;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    /**
-     *
-     * @param commentId UUID
-     * @param registeredPostId UUID
-     * @param userId UUID
-     * @param commentContent String, not null
-     * @param commentDate Date
-     * @param like int, not negative -> repository에서 예외처리
-     */
-    public Comment(UUID commentId, UUID registeredPostId, UUID userId, String commentContent, Date commentDate, Integer like) {
-        validateContent(commentContent);
-        this.commentId = commentId;
-        this.registeredPostId = registeredPostId;
-        this.userId = userId;
-        this.commentContent = commentContent;
-        this.commentDate = commentDate;
-        this.like = like;
-    }
+    @Lob
+    @Column(nullable = false)
+    private String content;
 
-    /**
-     *
-     * @param commentContent String, 공백만 있거나 null인지 판단
-     */
-    private void validateContent(String commentContent) {
-        if(commentContent.isEmpty()){
-            throw new RuntimeException("commentContent should not be blank");
+    @Column(name = "comment_like")
+    @ColumnDefault("0")
+    private int commentLike;
+
+    @CreationTimestamp
+    @Column(name = "comment_date_time")
+    private LocalDateTime commentDatetime;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
+    private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public void setPost(Post post) {
+        if (Objects.nonNull(this.post)) {
+            this.post.getComments().remove(this);
         }
+        this.post = post;
+        post.getComments().add(this);
     }
 
-    public void changeCommentContent(String commentContent) {
-        this.commentContent = commentContent;
-    }
 
-    public void upLike(int like) {
-        this.like++;
-    }
-
-    public UUID getCommentId() {
-        return commentId;
-    }
-
-    public UUID getRegisteredPostId() {
-        return registeredPostId;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public String getCommentContent() {
-        return commentContent;
-    }
-
-    public Date getCommentDate() {
-        return commentDate;
-    }
-
-    public int getLike() {
-        return like;
+    public void setUser(User user) {
+        if (Objects.nonNull(this.user)) {
+            this.user.getComments().remove(this);
+        }
+        this.user = user;
+        user.getComments().add(this);
     }
 }
