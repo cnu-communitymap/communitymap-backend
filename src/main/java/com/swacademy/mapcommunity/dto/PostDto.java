@@ -15,13 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 public class PostDto {
 
-    private int postId;
+    private int id;
     private String title;
     private String content;
     private LocalDateTime postDatetime;
     private int postLike;
-    private Point geography;
+    private Point position;
 
-    private UserDto userDto;
-    private List<CommentDto> commentDtos;
+    private UserDto user;
+    private List<CommentDto> comments;
 }

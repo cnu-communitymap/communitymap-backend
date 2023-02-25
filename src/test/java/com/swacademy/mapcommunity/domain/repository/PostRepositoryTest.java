@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.awt.*;
+
 @Slf4j
 @SpringBootTest
 class PostRepositoryTest {
@@ -34,4 +36,5 @@ class PostRepositoryTest {
         Post entity = repository.findById(post.getId()).get();
         log.info("title: {} , content: {}", entity.getTitle(), entity.getContent());
     }
+
 }

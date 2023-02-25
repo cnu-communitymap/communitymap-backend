@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CommentDto {
 
-    private int commentId;
+    private int id;
     private String content;
     private int commentLike;
     private LocalDateTime commentDatetime;
 
-    private PostDto postDto;
-    private UserDto userDto;
+    private PostDto post;
+    private UserDto user;
 }

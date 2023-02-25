@@ -15,13 +15,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserDto {
 
-    private UUID uuid;
+    private UUID id;
     private String email;
     private String password;
     private String nickName;
     private Gender gender;
     private LocalDate birth;
 
-    private List<PostDto> postDtos;
-    private List<CommentDto> commentDtos;
+    private List<PostDto> posts;
+    private List<CommentDto> comments;
 }
