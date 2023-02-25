@@ -43,7 +43,7 @@ public class Post {
     private int postLike;
 
     @Column(columnDefinition = "GEOMETRY")
-    private Point geography;
+    private Point position;
 
     //fk
     @ManyToOne

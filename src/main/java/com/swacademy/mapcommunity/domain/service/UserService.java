@@ -1,9 +1,9 @@
-package com.swacademy.mapcommunity.domain.user;
+package com.swacademy.mapcommunity.domain.service;
 
-import com.swacademy.mapcommunity.domain.convert.Converter;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
 import com.swacademy.mapcommunity.dto.UserDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,18 +16,15 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    Converter converter;
+    ModelMapper modelMapper = new ModelMapper();
 
     @Transactional
-    public UUID save(UserDto userDtodto) {
+    public UUID save(UserDto userDto) {
         //1. dto -> Entity (준영속 상태 객체)
-        User user = converter.convertUser(userDtodto);
+        User user = modelMapper.map(userDto, User.class);
 
-        //2. userRepository.save(entity)  -> 영속화
         User entity = userRepository.save(user);
 
-        //3. 반환
         return entity.getId();
     }
 
