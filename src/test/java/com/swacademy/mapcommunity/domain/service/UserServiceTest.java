@@ -1,45 +1,61 @@
 package com.swacademy.mapcommunity.domain.service;
 
+import com.swacademy.mapcommunity.MapcommunityBackendApplication;
+import com.swacademy.mapcommunity.data.entity.UserDataEntity;
+import com.swacademy.mapcommunity.data.repository.UserJpaRepository;
+import com.swacademy.mapcommunity.domain.entity.Gender;
 import com.swacademy.mapcommunity.domain.entity.User;
-import com.swacademy.mapcommunity.domain.repository.UserRepository;
-import com.swacademy.mapcommunity.domain.vo.Gender;
-import com.swacademy.mapcommunity.dto.UserDto;
-import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Slf4j
-@SpringBootTest
+@SpringBootTest(classes = MapcommunityBackendApplication.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("local")
 class UserServiceTest {
 
-    //ogger log = LoggerFactory.getLogger(UserServiceTest.class);
+    @Autowired
+    UserService userService;
 
     @Autowired
-    UserRepository userRepository;
+    private UserJpaRepository userRepository;
 
-    ModelMapper modelMapper = new ModelMapper();
+    private User user;
 
-    UserDto userDto = UserDto.builder()
-            .id(UUID.randomUUID())
-            .email("serviceTest@Gmail.com")
-            .password("1234!")
-            .nickName("ServiceTest")
-            .gender(Gender.NONE)
-            .birth(LocalDate.of(1982, 02, 19))
-            .build();
+    @BeforeAll
+    public void setup() {
+        user = new User();
+        user.setEmail("purplepig4657@gmail.com");
+        user.setPassword("asdf");
+        user.setNickname("purplepig");
+        user.setGender(Gender.MALE);
+        user.setBirth(LocalDate.now());
+    }
+
+    @AfterEach
+    public void tearDown() {
+        userRepository.deleteAll();
+    }
 
     @Test
-    void save() {
-        User user = modelMapper.map(userDto, User.class);
+    public void insertTest() throws IOException {
 
-        User entity = userRepository.save(user);
+        userService.saveUser(user);
 
-        log.info(entity.getId().toString());
+        UserDataEntity insertedUser = userRepository.findById(1L).get();
 
+        System.out.println(insertedUser.getNickname());
+        System.out.println(insertedUser.getBirth());
+        System.out.println(insertedUser.getGender());
+        System.out.println(insertedUser.getCreatedAt());
+        System.out.println(insertedUser.getBirth());
     }
+
 }

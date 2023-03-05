@@ -1,57 +1,56 @@
 package com.swacademy.mapcommunity.domain.service;
 
+import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
+import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
-import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @Transactional
-    public UUID save(User user) {
-
-        User entity = userRepository.save(user);
-
-        return entity.getId();
+    public Long saveUser(User user) throws IOException {
+        return userRepository.insertUser(user);
     }
 
-    //@Todo SpringSecurity -> Authentication 추가. pw 검사도
-    @Transactional
-    public User login(String email, String password) throws NoSuchElementException {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User not found with email " + email));
-
+    public User getUserById(Long userId) {
+        return userRepository.selectUserById(userId);
     }
 
-    @Transactional
-    public User mypage(UUID uuid) throws NoSuchElementException {
-        return userRepository.findById(uuid)
-                .orElseThrow(() -> new NoSuchElementException("User not found with uuid" + uuid));
-
+    public User getUserWithPostById(Long userId) {
+        return userRepository.selectUserById(userId, true, false);
     }
 
-    //@Todo return -> UUID or Dto 생각
-    @Transactional
-    public UUID update(User user) {
-        return userRepository.save(user).getId();
+    public User getUserWithCommentById(Long userId) {
+        return userRepository.selectUserById(userId, false, true);
     }
 
-    @Transactional
-    public void delete(UUID uuid) {
-        userRepository.deleteById(uuid);
+    public User getUserWithPostAndCommentById(Long userId) {
+        return userRepository.selectUserById(userId, true, true);
+    }
+
+    public List<Post> getUserPostsByUserId(Long userId) {
+        return userRepository.selectPostsByUserId(userId);
+    }
+
+    public List<Comment> getUserCommentsByUserId(Long userId) {
+        return userRepository.selectCommentsByUserId(userId);
+    }
+
+    public Long updateUser(User updatedUser) throws IOException {
+        return userRepository.updateUser(updatedUser);
+    }
+    
+    public boolean deleteUserById(Long userId) throws IOException {
+        return userRepository.deleteUserById(userId);
     }
 
 }
