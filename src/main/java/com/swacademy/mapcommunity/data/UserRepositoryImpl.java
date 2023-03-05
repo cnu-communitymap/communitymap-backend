@@ -4,6 +4,7 @@ import com.swacademy.mapcommunity.data.repository.UserJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.entity.Comment;
+import com.swacademy.mapcommunity.domain.exception.PersistenceInternalException;
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,37 +21,37 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public Long insertUser(User user) {
+    public Long insertUser(User user) throws IllegalArgumentException, PersistenceInternalException {
         return null;
     }
 
     @Override
-    public User selectUserById(Long userId) {
+    public User selectUserById(Long userId) throws IllegalArgumentException {
         return null;
     }
 
     @Override
-    public User selectUserById(Long userId, boolean getPosts, boolean getComments) {
+    public User selectUserById(Long userId, boolean getPosts, boolean getComments) throws IllegalArgumentException {
         return null;
     }
 
     @Override
-    public Long updateUser(User updatedUser) {
+    public Long updateUser(User updatedUser) throws IllegalArgumentException, PersistenceInternalException {
         return null;
     }
 
     @Override
-    public boolean deleteUserById(Long userId) {
+    public boolean deleteUserById(Long userId) throws IllegalArgumentException, PersistenceInternalException {
         return false;
     }
 
     @Override
-    public List<Post> selectPostsByUserId(Long userId) {
+    public List<Post> selectPostsByUserId(Long userId) throws IllegalArgumentException {
         return null;
     }
 
     @Override
-    public List<Comment> selectCommentsByUserId(Long userId) {
+    public List<Comment> selectCommentsByUserId(Long userId) throws IllegalArgumentException {
         return null;
     }
 }
