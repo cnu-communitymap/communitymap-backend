@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,8 @@ public class ExceptionAspect {
     public Object persistenceExceptionConverter(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             return joinPoint.proceed();
-        } catch (InvalidDataAccessApiUsageException |
-                 DataRetrievalFailureException | EntityNotFoundException illegalArgumentException) {
+        } catch (InvalidDataAccessApiUsageException | DataRetrievalFailureException |
+                 EntityNotFoundException | DuplicateKeyException illegalArgumentException) {
             throw new IllegalArgumentException(illegalArgumentException.getMessage());
         } catch (DataAccessException dataAccessException) {
             throw new PersistenceInternalException(dataAccessException.getMessage());
