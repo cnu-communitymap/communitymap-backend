@@ -32,10 +32,10 @@ public class UserDataEntity extends BaseInformation {
     @Column(name = "birth", columnDefinition = "DATE")
     private LocalDate birth;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostDataEntity> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentDataEntity> comments = new ArrayList<>();
 
     public void addPost(PostDataEntity post) {

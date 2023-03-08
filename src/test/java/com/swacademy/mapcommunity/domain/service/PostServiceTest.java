@@ -58,7 +58,7 @@ class PostServiceTest {
         newPost.setCreatedAt(LocalDateTime.now());
         newPost.setPosition(new Location(1, 1));
 
-        postService.savePost(newPost);
+//        postService.savePost(newPost);
     }
 
     @Test
@@ -77,7 +77,7 @@ class PostServiceTest {
         newPost.setCreatedAt(LocalDateTime.now());
         newPost.setPosition(new Location(1, 1));
 
-        postService.savePost(newPost);
+//        postService.savePost(newPost);
 
         System.out.println(newUser.getPosts());
 

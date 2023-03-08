@@ -28,18 +28,7 @@ public class PostRepositoryImpl implements PostRepository {
     @Transactional
     @PersistenceExceptionConverter
     public Long insertPost(Post post) throws IllegalArgumentException, InternalPersistenceException {
-//        try {
-//        throw new EntityNotFoundException();
-            PostDataEntity postDataEntity = new PostDataEntity();
-            postRepository.save(postDataEntity);
-            postRepository.findById(null);
-            return 1L;
-//        } catch (DataAccessException dataAccessException) {
-//            throw new PersistenceInternalException(dataAccessException.getMessage());
-//        }
-//        throw new EntityNotFoundException();
-//        return postRepository.getReferenceById(post.getId()).getId();
-//        throw new IllegalArgumentException();
+        return null;
     }
 
     @Override

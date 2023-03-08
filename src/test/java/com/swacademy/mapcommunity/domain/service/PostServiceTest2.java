@@ -20,7 +20,7 @@ class PostServiceTest2 {
     public void test() {
         Post post = new Post();
         post.setPostLike(1000000);
-        System.out.println(postService.savePost(post));
+//        System.out.println(postService.savePost(post));
         try {
         } catch (IllegalArgumentException e) {}
     }

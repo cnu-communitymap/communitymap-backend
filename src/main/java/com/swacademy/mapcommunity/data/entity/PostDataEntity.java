@@ -39,7 +39,7 @@ public class PostDataEntity extends BaseInformation {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserDataEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentDataEntity> comments = new ArrayList<>();
 
     public void setUser(UserDataEntity user) {
@@ -49,7 +49,7 @@ public class PostDataEntity extends BaseInformation {
     }
 
     public void addComment(CommentDataEntity comment) {
-        this.getComments().add(comment);
+        comment.setPost(this);
     }
 
     @PrePersist
