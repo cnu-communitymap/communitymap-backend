@@ -4,7 +4,7 @@ import com.swacademy.mapcommunity.data.repository.UserJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.entity.Comment;
-import com.swacademy.mapcommunity.domain.exception.PersistenceInternalException;
+import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public Long insertUser(User user) throws IllegalArgumentException, PersistenceInternalException {
+    public Long insertUser(User user) throws IllegalArgumentException, InternalPersistenceException {
         return null;
     }
 
@@ -36,12 +36,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Long updateUser(User updatedUser) throws IllegalArgumentException, PersistenceInternalException {
+    public Long updateUser(User updatedUser) throws IllegalArgumentException, InternalPersistenceException {
         return null;
     }
 
     @Override
-    public boolean deleteUserById(Long userId) throws IllegalArgumentException, PersistenceInternalException {
+    public boolean deleteUserById(Long userId) throws IllegalArgumentException, InternalPersistenceException {
         return false;
     }
 

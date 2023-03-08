@@ -4,7 +4,7 @@ import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Location;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
-import com.swacademy.mapcommunity.domain.exception.PersistenceInternalException;
+import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ public interface PostRepository {
      * @param post Domain post entity.
      * @return Return inserted post id, Long.
      * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    Long insertPost(Post post) throws IllegalArgumentException, PersistenceInternalException;
+    Long insertPost(Post post) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select post by post id. The implementer should catch database exceptions and convert them into
@@ -53,19 +53,19 @@ public interface PostRepository {
      * @param updatedPost updated post entity
      * @return Return updated post id, Long.
      * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    Long updatePost(Post updatedPost) throws IllegalArgumentException, PersistenceInternalException;
+    Long updatePost(Post updatedPost) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Delete post by post id. The implementer should catch database exceptions and convert them into
      * custom exceptions that are defined in the domain layer or Java Standard Exceptions.
      * @param postId post id
      * @return Return the status of the deletion.
-     * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws IllegalArgumentException When given id is wrong.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    boolean deletePostById(Long postId) throws IllegalArgumentException, PersistenceInternalException;
+    boolean deletePostById(Long postId) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select comments on post with PostId. It can be replaced Post.getComments method.

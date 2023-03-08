@@ -8,12 +8,12 @@ package com.swacademy.mapcommunity.domain.exception;
  * <p> This exception plays a role in wrapping exceptions that occur in JDBC, JPA, or any other data layer
  * implementation, so that the server can handle them appropriately. </p>
  */
-public class PersistenceInternalException extends RuntimeException {
-    public PersistenceInternalException() {}
-    public PersistenceInternalException(String message) {
+public class InternalPersistenceException extends RuntimeException {
+    public InternalPersistenceException() {}
+    public InternalPersistenceException(String message) {
         super(message);
     }
-    public PersistenceInternalException(String message, Throwable throwable) {
+    public InternalPersistenceException(String message, Throwable throwable) {
         super(message, throwable);
     }
 }

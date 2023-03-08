@@ -3,7 +3,7 @@ package com.swacademy.mapcommunity.domain.repository;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
-import com.swacademy.mapcommunity.domain.exception.PersistenceInternalException;
+import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ public interface UserRepository {
      * @param user Domain user entity.
      * @return Return inserted user id, Long.
      * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    Long insertUser(User user) throws IllegalArgumentException, PersistenceInternalException;
+    Long insertUser(User user) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select user by user id. The implementer should catch database exceptions and convert them into
@@ -52,19 +52,19 @@ public interface UserRepository {
      * @param updatedUser
      * @return Return updated user id, Long.
      * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    Long updateUser(User updatedUser) throws IllegalArgumentException, PersistenceInternalException;
+    Long updateUser(User updatedUser) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Delete user by user id. The implementer should catch database exceptions and convert them into
      * custom exceptions that are defined in the domain layer or Java Standard Exceptions.
      * @param userId
      * @return Return the status of the deletion.
-     * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws IllegalArgumentException When given id is wrong.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    boolean deleteUserById(Long userId) throws IllegalArgumentException, PersistenceInternalException;
+    boolean deleteUserById(Long userId) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select posts created by user with userId. It can replace User.getPosts method.

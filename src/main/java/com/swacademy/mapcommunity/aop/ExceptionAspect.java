@@ -1,6 +1,6 @@
 package com.swacademy.mapcommunity.aop;
 
-import com.swacademy.mapcommunity.domain.exception.PersistenceInternalException;
+import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import jakarta.persistence.EntityNotFoundException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,7 +23,7 @@ public class ExceptionAspect {
                  EntityNotFoundException | DuplicateKeyException illegalArgumentException) {
             throw new IllegalArgumentException(illegalArgumentException.getMessage());
         } catch (DataAccessException dataAccessException) {
-            throw new PersistenceInternalException(dataAccessException.getMessage());
+            throw new InternalPersistenceException(dataAccessException.getMessage());
         }
 
     }

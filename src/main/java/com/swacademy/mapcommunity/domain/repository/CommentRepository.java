@@ -2,7 +2,7 @@ package com.swacademy.mapcommunity.domain.repository;
 
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.User;
-import com.swacademy.mapcommunity.domain.exception.PersistenceInternalException;
+import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 
 /**
  * @author Taehyeon Kim
@@ -16,9 +16,9 @@ public interface CommentRepository {
      * @param comment Domain comment entity.
      * @return Return inserted comment id, Long.
      * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    Long insertComment(Comment comment) throws IllegalArgumentException, PersistenceInternalException;
+    Long insertComment(Comment comment) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select comment by comment id. The implementer should catch database exceptions and convert them into
@@ -49,19 +49,19 @@ public interface CommentRepository {
      * @param updatedComment
      * @return Return updated comment id, Long.
      * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    Long updateComment(Comment updatedComment) throws IllegalArgumentException, PersistenceInternalException;
+    Long updateComment(Comment updatedComment) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Delete comment by comment id. The implementer should catch database exceptions and convert them into
      * custom exceptions that are defined in the domain layer or Java Standard Exceptions.
      * @param commentId
      * @return Return the status of the deletion.
-     * @throws IllegalArgumentException When there is something wrong with given entity.
-     * @throws PersistenceInternalException When an exception is thrown in the data layer.
+     * @throws IllegalArgumentException When given id is wrong.
+     * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    boolean deleteCommentById(Long commentId) throws IllegalArgumentException, PersistenceInternalException;
+    boolean deleteCommentById(Long commentId) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select author of given comment by commentId. It can replace Comment.getUser method.

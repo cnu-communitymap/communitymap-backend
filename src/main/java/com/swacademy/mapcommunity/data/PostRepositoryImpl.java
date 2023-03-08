@@ -7,13 +7,10 @@ import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Location;
-import com.swacademy.mapcommunity.domain.exception.PersistenceInternalException;
+import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import com.swacademy.mapcommunity.domain.repository.PostRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     @Transactional
     @PersistenceExceptionConverter
-    public Long insertPost(Post post) throws IllegalArgumentException, PersistenceInternalException {
+    public Long insertPost(Post post) throws IllegalArgumentException, InternalPersistenceException {
 //        try {
 //        throw new EntityNotFoundException();
             PostDataEntity postDataEntity = new PostDataEntity();
