@@ -25,6 +25,14 @@ public class ExceptionAspect {
         } catch (DataAccessException dataAccessException) {
             throw new InternalPersistenceException(dataAccessException.getMessage());
         }
+    }
 
+    @Around("@annotation(InternalServerExceptionConverter)")
+    public Object internalServerExceptionConverter(ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            return joinPoint.proceed();
+        } catch (InternalPersistenceException internalPersistenceException) {
+            throw new InternalPersistenceException(internalPersistenceException.getMessage());
+        }
     }
 }
