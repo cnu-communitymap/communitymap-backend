@@ -90,7 +90,7 @@ public interface PostRepository {
     User selectUserByPostId(Long postId) throws IllegalArgumentException;
 
     /**
-     * Select posts by location.
+     * Select posts by location. It does not include user and comments information.
      * The implementer should catch database exceptions and convert them into
      * custom exceptions that are defined in the domain layer or Java Standard Exceptions.
      * @param location Domain location value object.
