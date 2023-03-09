@@ -42,7 +42,7 @@ public class Post extends BaseInformation {
     }
 
     public void addComment(Comment comment) {
-        this.getComments().add(comment);
+        comment.setPost(this);
     }
 
 }

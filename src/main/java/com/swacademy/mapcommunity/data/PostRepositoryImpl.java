@@ -1,7 +1,6 @@
 package com.swacademy.mapcommunity.data;
 
 import com.swacademy.mapcommunity.aop.PersistenceExceptionConverter;
-import com.swacademy.mapcommunity.data.entity.PostDataEntity;
 import com.swacademy.mapcommunity.data.repository.PostJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
