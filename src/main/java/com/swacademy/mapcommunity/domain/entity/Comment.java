@@ -13,6 +13,7 @@ public class Comment extends BaseInformation {
     private Integer commentLike;
     private Long userId;
     private User user;
+    private Post post;
 
     public Comment() { super(); }
 
@@ -30,6 +31,12 @@ public class Comment extends BaseInformation {
         if (Objects.nonNull(this.user)) this.user.getComments().remove(this);
         this.user = user;
         this.user.getComments().add(this);
+    }
+
+    public void setPost(Post post) {
+        if (Objects.nonNull(this.post)) this.post.getComments().remove(this);
+        this.post = post;
+        this.post.getComments().add(this);
     }
 
 }

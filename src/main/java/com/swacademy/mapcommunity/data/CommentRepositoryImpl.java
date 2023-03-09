@@ -1,5 +1,6 @@
 package com.swacademy.mapcommunity.data;
 
+import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.data.repository.CommentJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Comment;
@@ -28,7 +29,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Comment selectCommentById(Long commentId, boolean getUser) throws IllegalArgumentException {
+    public Comment selectCommentById(Long commentId, boolean getUser, boolean getPost) throws IllegalArgumentException {
         return null;
     }
 
@@ -44,6 +45,11 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public User selectUserByCommentId(Long commentId) throws IllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public Post selectPostByCommentId(Long commentId) throws IllegalArgumentException {
         return null;
     }
 }

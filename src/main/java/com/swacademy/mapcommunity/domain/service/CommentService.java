@@ -1,11 +1,14 @@
 package com.swacademy.mapcommunity.domain.service;
 
+import com.swacademy.mapcommunity.aop.InternalServerExceptionConverter;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.exception.InternalServerException;
 import com.swacademy.mapcommunity.domain.repository.CommentRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -17,10 +20,41 @@ public class CommentService {
         this.postService = postService;
     }
 
-//    public Long saveComment(Comment comment, Long savedPostId, User writer)
-//            throws IllegalArgumentException, InternalServerException {
-//        Post savedPost = this.postService.getPostById(savedPostId);
-//        comment.
-//    }
+    @InternalServerExceptionConverter
+    public Long saveComment(Comment comment, Long savedPostId, User writer)
+            throws IllegalArgumentException, InternalServerException {
+        Post savedPost = this.postService.getPostById(savedPostId);
+        comment.setUser(writer);  // @TODO Change this code that using spring security.
+        comment.setPost(savedPost);
+        return commentRepository.insertComment(comment);
+    }
+
+    @InternalServerExceptionConverter
+    public Comment getCommentById(Long commentId) throws IllegalArgumentException {
+        return commentRepository.selectCommentById(commentId);
+    }
+
+    @InternalServerExceptionConverter
+    public Comment getCommentWithUserAndPostById(Long commentId) throws IllegalArgumentException {
+        return commentRepository.selectCommentById(commentId, true, true);
+    }
+
+    @InternalServerExceptionConverter
+    public List<Comment> getCommentsByPostId(Long postId) throws IllegalArgumentException {
+        return postService.getCommentsByPostId(postId);
+    }
+
+    @InternalServerExceptionConverter
+    public User getWriterByCommentId(Long commentId) throws IllegalArgumentException {
+        return commentRepository.selectUserByCommentId(commentId);
+    }
+
+    @InternalServerExceptionConverter
+    public Post getPostByCommentId(Long commentId) throws IllegalArgumentException {
+        return commentRepository.selectPostByCommentId(commentId);
+    }
+
+
+
 
 }

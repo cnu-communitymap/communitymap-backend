@@ -1,6 +1,7 @@
 package com.swacademy.mapcommunity.domain.repository;
 
 import com.swacademy.mapcommunity.domain.entity.Comment;
+import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 
@@ -31,16 +32,17 @@ public interface CommentRepository {
     Comment selectCommentById(Long commentId) throws IllegalArgumentException;
 
     /**
-     * Select comment with user entity by comment id.
+     * Select comment with user and post entity by comment id.
      * The implementer should catch database exceptions and convert them into
      * custom exceptions that are defined in the domain layer or Java Standard Exceptions.
      * @param commentId comment id
      * @param getUser Allow EAGER loading of user.
+     * @param getPost Allow EAGER loading of user.
      * @return Return the comment entity with the entities specified by the given option. Not null.
      * @throws IllegalArgumentException When given id is wrong.
      * Include {@link org.springframework.dao.DataRetrievalFailureException DataRetrievalFailureException}.
      */
-    Comment selectCommentById(Long commentId, boolean getUser) throws IllegalArgumentException;
+    Comment selectCommentById(Long commentId, boolean getUser, boolean getPost) throws IllegalArgumentException;
 
     /**
      * Update comment to given comment entity.
@@ -73,4 +75,15 @@ public interface CommentRepository {
      * Include {@link org.springframework.dao.DataRetrievalFailureException DataRetrievalFailureException}.
      */
     User selectUserByCommentId(Long commentId) throws IllegalArgumentException;
+
+    /**
+     * Select post that contain given comment by commentId. It can replace Comment.getUser method.
+     * The implementer should catch database exceptions and convert them into
+     * custom exceptions that are defined in the domain layer or Java Standard Exceptions.
+     * @param commentId comment id
+     * @return Return Domain user entity.
+     * @throws IllegalArgumentException When given id is wrong.
+     * Include {@link org.springframework.dao.DataRetrievalFailureException DataRetrievalFailureException}.
+     */
+    Post selectPostByCommentId(Long commentId) throws IllegalArgumentException;
 }
