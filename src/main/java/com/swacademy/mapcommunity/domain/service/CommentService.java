@@ -54,7 +54,16 @@ public class CommentService {
         return commentRepository.selectPostByCommentId(commentId);
     }
 
+    @InternalServerExceptionConverter
+    public Long updateComment(Comment updatedComment) throws IllegalArgumentException, InternalServerException {
+        // @TODO Add authentication logic.
+        return commentRepository.updateComment(updatedComment);
+    }
 
-
+    @InternalServerExceptionConverter
+    public boolean deleteCommentById(Long commentId) throws IllegalArgumentException, InternalServerException {
+        // @TODO Add authentication logic.
+        return commentRepository.deleteCommentById(commentId);
+    }
 
 }
