@@ -1,8 +1,8 @@
 package com.swacademy.mapcommunity.domain.service;
 
 import com.swacademy.mapcommunity.MapcommunityBackendApplication;
-import com.swacademy.mapcommunity.data.repository.PostJpaRepository;
-import com.swacademy.mapcommunity.data.repository.UserJpaRepository;
+import com.swacademy.mapcommunity.data.jpa.PostJpaRepository;
+import com.swacademy.mapcommunity.data.jpa.UserJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Gender;
 import com.swacademy.mapcommunity.domain.entity.Location;
 import com.swacademy.mapcommunity.domain.entity.Post;

@@ -1,6 +1,6 @@
 package com.swacademy.mapcommunity.data;
 
-import com.swacademy.mapcommunity.data.repository.UserJpaRepository;
+import com.swacademy.mapcommunity.data.jpa.UserJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.entity.Comment;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryJpaImpl implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
 
-    public UserRepositoryImpl(UserJpaRepository userJpaRepository) {
+    public UserRepositoryJpaImpl(UserJpaRepository userJpaRepository) {
         this.userJpaRepository = userJpaRepository;
     }
 

@@ -1,4 +1,4 @@
-package com.swacademy.mapcommunity.data.repository;
+package com.swacademy.mapcommunity.data.jpa;
 
 import com.swacademy.mapcommunity.data.entity.CommentDataEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

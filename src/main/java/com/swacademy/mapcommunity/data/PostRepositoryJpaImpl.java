@@ -1,7 +1,7 @@
 package com.swacademy.mapcommunity.data;
 
 import com.swacademy.mapcommunity.aop.PersistenceExceptionConverter;
-import com.swacademy.mapcommunity.data.repository.PostJpaRepository;
+import com.swacademy.mapcommunity.data.jpa.PostJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.entity.Comment;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class PostRepositoryImpl implements PostRepository {
+public class PostRepositoryJpaImpl implements PostRepository {
 
     private final PostJpaRepository postRepository;
 
-    public PostRepositoryImpl(PostJpaRepository postRepository) {
+    public PostRepositoryJpaImpl(PostJpaRepository postRepository) {
         this.postRepository = postRepository;
     }
 

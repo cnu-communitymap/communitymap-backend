@@ -2,18 +2,18 @@ package com.swacademy.mapcommunity.data;
 
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
-import com.swacademy.mapcommunity.data.repository.CommentJpaRepository;
+import com.swacademy.mapcommunity.data.jpa.CommentJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import com.swacademy.mapcommunity.domain.repository.CommentRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CommentRepositoryImpl implements CommentRepository {
+public class CommentRepositoryJpaImpl implements CommentRepository {
 
     private final CommentJpaRepository commentJpaRepository;
 
-    public CommentRepositoryImpl(CommentJpaRepository commentJpaRepository) {
+    public CommentRepositoryJpaImpl(CommentJpaRepository commentJpaRepository) {
         this.commentJpaRepository = commentJpaRepository;
     }
 
