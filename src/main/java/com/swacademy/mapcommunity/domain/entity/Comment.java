@@ -11,19 +11,18 @@ public class Comment extends BaseInformation {
     private Long id;
     private String content;
     private Integer commentLike;
-    private Long userId;
+//    private Long userId;
     private User user;
     private Post post;
 
     public Comment() { super(); }
 
-    public Comment(Long id, String content, Integer commentLike, Long userId, User user,
+    public Comment(Long id, String content, Integer commentLike, User user,
                    LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
         this.id = id;
         this.content = content;
         this.commentLike = commentLike;
-        this.userId = userId;
         this.user = user;
     }
 

@@ -24,8 +24,8 @@ public class CommentDataEntity extends BaseInformation {
     @ColumnDefault("0")
     private Integer commentLike;
 
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    private Long userId;
+//    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
+//    private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -15,13 +15,13 @@ public class Post extends BaseInformation {
     private String content;
     private Integer postLike;
     private Location position;
-    private Long userId;
+//    private Long userId;
     private User user;
     private List<Comment> comments = new ArrayList<>();
 
     public Post() { super(); }
 
-    public Post(Long id, String title, String content, Integer postLike, Location position, Long userId,
+    public Post(Long id, String title, String content, Integer postLike, Location position,
                 User user, List<Comment> comments,
                 LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
@@ -30,7 +30,6 @@ public class Post extends BaseInformation {
         this.content = content;
         this.postLike = postLike;
         this.position = position;
-        this.userId = userId;
         this.user = user;
         this.comments = comments;
     }
@@ -42,7 +41,13 @@ public class Post extends BaseInformation {
     }
 
     public void addComment(Comment comment) {
+        comments.add(comment);
         comment.setPost(this);
+    }
+
+    public void removeComment(Comment comment) {
+        comment.setPost(null);
+        this.comments.remove(comment);
     }
 
 }

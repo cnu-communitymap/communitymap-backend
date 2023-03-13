@@ -1,5 +1,9 @@
 package com.swacademy.mapcommunity.domain.entity;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+
 /**
  * Value object that express coordinate.
  * @param latitude -90.0 <= latitude <= 90.0
@@ -20,4 +24,9 @@ public record Location(
         if (longitude <= MIN_LONGITUDE || longitude >= MAX_LONGITUDE) throw new IllegalArgumentException(
                 "Longitude value should be in range %s to %s.".formatted(MIN_LONGITUDE, MAX_LONGITUDE));
     }
+
+    public Point asPoint() {
+        return new GeometryFactory().createPoint(new Coordinate(longitude, latitude));
+    }
+
 }
