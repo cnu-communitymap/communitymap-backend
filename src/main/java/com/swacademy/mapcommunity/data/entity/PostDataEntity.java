@@ -32,8 +32,9 @@ public class PostDataEntity extends BaseInformation {
     @Column(name = "position", nullable = false, columnDefinition = "GEOMETRY")
     private Point position;
 
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    private Long userId;
+    //필요한가 싶어서 일단 제거
+//    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
+//    private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
