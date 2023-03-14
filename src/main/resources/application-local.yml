@@ -15,5 +15,3 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
-        spatial:
-          dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect

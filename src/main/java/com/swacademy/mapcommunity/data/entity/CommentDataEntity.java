@@ -41,10 +41,28 @@ public class CommentDataEntity extends BaseInformation {
         user.getComments().add(this);
     }
 
+    /**
+     * Unsets the user associated with this comment.
+     * @param user UserDataEntity
+     */
+    public void unsetUser(UserDataEntity user) {
+        if(Objects.nonNull(this.user) && this.user.equals(user)) {
+            this.user = null;
+            user.getComments().remove(this);
+        }
+    }
+
     public void setPost(PostDataEntity post) {
         if (Objects.nonNull(this.post)) this.post.getComments().remove(this);
         this.post = post;
         post.getComments().add(this);
+    }
+
+    public void unsetPost(PostDataEntity post) {
+        if(Objects.nonNull(this.post) && this.post.equals(post)) {
+            this.post = null;
+            post.getComments().remove(this);
+        }
     }
 
     @PrePersist
