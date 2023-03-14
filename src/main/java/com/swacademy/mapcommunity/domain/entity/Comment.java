@@ -32,10 +32,23 @@ public class Comment extends BaseInformation {
         this.user.getComments().add(this);
     }
 
+    public void unsetUser(User user) {
+        if(Objects.nonNull(this.user) && this.user.equals(user)) {
+            this.user = null;
+            user.getComments().remove(this);
+        }
+    }
+
     public void setPost(Post post) {
         if (Objects.nonNull(this.post)) this.post.getComments().remove(this);
         this.post = post;
         this.post.getComments().add(this);
     }
 
+    public void unsetPost(Post post) {
+        if(Objects.nonNull(this.post) && this.post.equals(post)) {
+            this.post = null;
+            post.getComments().remove(this);
+        }
+    }
 }

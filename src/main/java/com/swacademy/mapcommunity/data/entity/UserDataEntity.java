@@ -1,7 +1,8 @@
 package com.swacademy.mapcommunity.data.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,8 +43,27 @@ public class UserDataEntity extends BaseInformation {
         post.setUser(this);
     }
 
+    /**
+     * When a Post is deleted, all Comments that the Post has must be deleted.
+     * @param post the post to be removed
+     */
+    public void removePost(PostDataEntity post) {
+        post.unsetUser(this);
+        post.getComments().removeAll(comments);
+    }
+
     public void addComment(CommentDataEntity comment) {
         comment.setUser(this);
+    }
+
+    /**
+     * removes a comment from both the user and post that it is associated with.
+     * The comment is first unset from the user's comments list, then it is unset from the post's comments list.
+     * @param comment the comment to be removed
+     */
+    public void removeComment(CommentDataEntity comment) {
+        comment.unsetUser(this);
+        comment.unsetPost(comment.getPost());
     }
 
     @PrePersist

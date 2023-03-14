@@ -40,14 +40,24 @@ public class Post extends BaseInformation {
         this.user.getPosts().add(this);
     }
 
+    /**
+     * Remove the User object associated with the User field of the Post object,
+     * and remove the corresponding Post object from the Post List of the User object.
+     * @param user User
+     */
+    public void unsetUser(User user) {
+        if (Objects.nonNull(this.user) && this.user.equals(user)) {
+            this.user = null;
+            user.getPosts().remove(this);
+        }
+    }
+
     public void addComment(Comment comment) {
-        comments.add(comment);
         comment.setPost(this);
     }
 
     public void removeComment(Comment comment) {
-        comment.setPost(null);
-        this.comments.remove(comment);
+        comment.unsetPost(this);
     }
 
 }

@@ -1,7 +1,8 @@
 package com.swacademy.mapcommunity.data.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.locationtech.jts.geom.Point;
 
@@ -49,8 +50,24 @@ public class PostDataEntity extends BaseInformation {
         user.getPosts().add(this);
     }
 
+    /**
+     * Remove the User object associated with the User field of the Post object,
+     * and remove the corresponding Post object from the Post List of the User object.
+     * @param user UserDataEntity
+     */
+    public void unsetUser(UserDataEntity user) {
+        if (Objects.nonNull(this.user) && this.user.equals(user)) {
+            this.user = null;
+            user.getPosts().remove(this);
+        }
+    }
+
     public void addComment(CommentDataEntity comment) {
         comment.setPost(this);
+    }
+
+    public void removeComment(CommentDataEntity comment) {
+        comment.unsetPost(this);
     }
 
     @PrePersist
