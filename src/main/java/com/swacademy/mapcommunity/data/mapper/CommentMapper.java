@@ -29,10 +29,10 @@ public class CommentMapper {
      */
     public CommentDataEntity toDataEntity(Comment comment) {
         CommentDataEntity commentDataEntity = modelMapper.map(comment, CommentDataEntity.class);
-        Location location = comment.getPost().getPosition();
-        if (location != null) {  //Since the type is different, it must be specified separately.
+        Location position = comment.getPost().getPosition();
+        if (position != null) {  //Since the type is different, it must be specified separately.
             PostDataEntity postDataEntity = commentDataEntity.getPost();
-            postDataEntity.setPosition(new GeometryFactory().createPoint(new Coordinate(location.longitude(), location.latitude())));
+            postDataEntity.setPosition(new GeometryFactory().createPoint(new Coordinate(position.longitude(), position.latitude())));
             commentDataEntity.setPost(postDataEntity);
         }
         return commentDataEntity;

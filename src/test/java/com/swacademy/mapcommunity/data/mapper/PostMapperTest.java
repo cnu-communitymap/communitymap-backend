@@ -10,6 +10,8 @@ import com.swacademy.mapcommunity.domain.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -78,7 +80,7 @@ class PostMapperTest {
         postDataEntity.setTitle("Test Title");
         postDataEntity.setContent("Test Content");
         postDataEntity.setPostLike(0);
-        postDataEntity.setPosition(new Location(37.123456, 127.123456).asPoint());
+        postDataEntity.setPosition(new GeometryFactory().createPoint(new Coordinate(127.123456, 37.123456)));
 
         //Create a UserDataEntity object to convert use FK
         UserDataEntity userDataEntity = new UserDataEntity();

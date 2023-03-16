@@ -8,6 +8,8 @@ import com.swacademy.mapcommunity.domain.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -101,7 +103,7 @@ class CommentMapperTest {
         postDataEntity1.setId(10L);
         postDataEntity1.setTitle("test title");
         postDataEntity1.setContent("this tis content");
-        postDataEntity1.setPosition(new Location(37.123456, 127.123456).asPoint());
+        postDataEntity1.setPosition(new GeometryFactory().createPoint(new Coordinate(127.123456, 37.123456)));
         postDataEntity1.setPostLike(0);
         postDataEntity1.setCreatedAt(LocalDateTime.now());
         postDataEntity1.setUpdatedAt(LocalDateTime.now());

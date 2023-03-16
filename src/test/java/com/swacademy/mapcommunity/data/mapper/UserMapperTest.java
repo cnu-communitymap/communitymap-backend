@@ -13,7 +13,10 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -28,8 +31,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("local")
 class UserMapperTest {
 
-    private final ModelMapper modelMapper = new ModelMapper();
-    private final UserMapper userMapper = new UserMapper(modelMapper);
+    private final UserMapper userMapper;
+
+    public UserMapperTest(@Autowired PostMapper postMapper, @Autowired CommentMapper commentMapper) {
+        ModelMapper modelMapper = new ModelMapper();
+        this.userMapper = new UserMapper(modelMapper, postMapper, commentMapper);
+    }
 
     @Test
     @DisplayName("Object toDataEntity mapper test with User, Post")
@@ -105,7 +112,7 @@ class UserMapperTest {
         postDataEntity1.setContent("post content 1");
         postDataEntity1.setCreatedAt(LocalDateTime.now());
         postDataEntity1.setUpdatedAt(LocalDateTime.now());
-        postDataEntity1.setPosition(new Location(36.369934530965246, 127.34573990100932).asPoint());
+        postDataEntity1.setPosition(new GeometryFactory().createPoint(new Coordinate(128.34573990100932, 36.369934530965246)));
 
         PostDataEntity postDataEntity2 = new PostDataEntity();
         postDataEntity2.setId(2L);
@@ -113,7 +120,7 @@ class UserMapperTest {
         postDataEntity2.setContent("test tests");
         postDataEntity2.setCreatedAt(LocalDateTime.now());
         postDataEntity2.setUpdatedAt(LocalDateTime.now());
-        postDataEntity2.setPosition(new Location(36.369934530965246, 127.34573990100932).asPoint());
+        postDataEntity2.setPosition(new GeometryFactory().createPoint(new Coordinate(127.34573990100932, 36.369934530965246)));
 
         postDataEntity1.setUser(userDataEntity);
         postDataEntity2.setUser(userDataEntity);
@@ -155,7 +162,7 @@ class UserMapperTest {
         postDataEntity1.setContent("post content 1");
         postDataEntity1.setCreatedAt(LocalDateTime.now());
         postDataEntity1.setUpdatedAt(LocalDateTime.now());
-        postDataEntity1.setPosition(new Location(36.369934530965246, 127.34573990100932).asPoint());
+        postDataEntity1.setPosition(new GeometryFactory().createPoint(new Coordinate(127.34573990100932, 36.369934530965246)));
 
         PostDataEntity postDataEntity2 = new PostDataEntity();
         postDataEntity2.setId(2L);
@@ -163,7 +170,7 @@ class UserMapperTest {
         postDataEntity2.setContent("test tests");
         postDataEntity2.setCreatedAt(LocalDateTime.now());
         postDataEntity2.setUpdatedAt(LocalDateTime.now());
-        postDataEntity2.setPosition(new Location(36.369934530965246, 127.34573990100932).asPoint());
+        postDataEntity2.setPosition(new GeometryFactory().createPoint(new Coordinate(127.34573990100932, 36.369934530965246)));
 
         postDataEntity1.setUser(userDataEntity);
         postDataEntity2.setUser(userDataEntity);
@@ -193,7 +200,6 @@ class UserMapperTest {
         assertEquals(user.getCreatedAt(), userDataEntity.getCreatedAt());
         assertEquals(user.getUpdatedAt(), userDataEntity.getUpdatedAt());
         assertEquals(user.getBirth(), userDataEntity.getBirth());
-
     }
 
 }
