@@ -28,9 +28,9 @@ public class PostMapper {
     public PostDataEntity toDataEntity(Post post) {
         PostDataEntity postDataEntity = modelMapper.map(post, PostDataEntity.class);
 
-        Location location = post.getPosition();
-        if (location != null) {
-            postDataEntity.setPosition(new GeometryFactory().createPoint(new Coordinate(location.longitude(), location.latitude())));
+        Location position = post.getPosition();
+        if (position != null) {
+            postDataEntity.setPosition(new GeometryFactory().createPoint(new Coordinate(position.longitude(), position.latitude())));
         }
         return postDataEntity;
     }
