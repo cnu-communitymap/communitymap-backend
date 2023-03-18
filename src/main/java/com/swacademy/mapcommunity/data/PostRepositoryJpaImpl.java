@@ -1,7 +1,9 @@
 package com.swacademy.mapcommunity.data;
 
 import com.swacademy.mapcommunity.aop.PersistenceExceptionConverter;
+import com.swacademy.mapcommunity.data.entity.PostDataEntity;
 import com.swacademy.mapcommunity.data.jpa.PostJpaRepository;
+import com.swacademy.mapcommunity.data.mapper.PostMapper;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.entity.Comment;
@@ -17,9 +19,11 @@ import java.util.List;
 public class PostRepositoryJpaImpl implements PostRepository {
 
     private final PostJpaRepository postRepository;
+    private final PostMapper postMapper;
 
-    public PostRepositoryJpaImpl(PostJpaRepository postRepository) {
+    public PostRepositoryJpaImpl(PostJpaRepository postRepository, PostMapper postMapper) {
         this.postRepository = postRepository;
+        this.postMapper = postMapper;
     }
 
 
@@ -27,12 +31,16 @@ public class PostRepositoryJpaImpl implements PostRepository {
     @Transactional
     @PersistenceExceptionConverter
     public Long insertPost(Post post) throws IllegalArgumentException, InternalPersistenceException {
-        return null;
+        PostDataEntity postDataEntity = this.postMapper.toDataEntity(post);
+        return this.postRepository.save(postDataEntity).getId();
     }
 
     @Override
+    @Transactional
+    @PersistenceExceptionConverter
     public Post selectPostById(Long postId) {
-        return null;
+        PostDataEntity postDataEntity = this.postRepository.getReferenceById(postId);
+        return this.postMapper.toEntity(postDataEntity);
     }
 
     @Override
