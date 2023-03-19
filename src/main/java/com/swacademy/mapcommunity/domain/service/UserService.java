@@ -17,7 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Long saveUser(User user) throws IOException {
+    public Long saveUser(User user) {
         return userRepository.insertUser(user);
     }
 

@@ -24,8 +24,8 @@ public class CommentDataEntity extends BaseInformation {
     @ColumnDefault("0")
     private Integer commentLike;
 
-//    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-//    private Long userId;
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
+    private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -34,6 +34,11 @@ public class CommentDataEntity extends BaseInformation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private PostDataEntity post;
+
+    public void changeComment(CommentDataEntity commentDataEntity) {
+        this.content = commentDataEntity.getContent();
+        this.commentLike = commentDataEntity.getCommentLike();
+    }
 
     public void setUser(UserDataEntity user) {
         if (Objects.nonNull(this.user)) this.user.getComments().remove(this);

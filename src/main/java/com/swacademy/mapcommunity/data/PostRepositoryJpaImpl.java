@@ -11,11 +11,13 @@ import com.swacademy.mapcommunity.domain.entity.Location;
 import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import com.swacademy.mapcommunity.domain.repository.PostRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class PostRepositoryJpaImpl implements PostRepository {
 
     private final PostJpaRepository postRepository;
@@ -28,7 +30,6 @@ public class PostRepositoryJpaImpl implements PostRepository {
 
 
     @Override
-    @Transactional
     @PersistenceExceptionConverter
     public Long insertPost(Post post) throws IllegalArgumentException, InternalPersistenceException {
         PostDataEntity postDataEntity = this.postMapper.toDataEntity(post);
@@ -36,40 +37,50 @@ public class PostRepositoryJpaImpl implements PostRepository {
     }
 
     @Override
-    @Transactional
     @PersistenceExceptionConverter
-    public Post selectPostById(Long postId) {
+    public Post selectPostById(Long postId) throws IllegalArgumentException {
         PostDataEntity postDataEntity = this.postRepository.getReferenceById(postId);
         return this.postMapper.toEntity(postDataEntity);
     }
 
     @Override
-    public Post selectPostById(Long postId, boolean getUser, boolean getComments) {
+    @PersistenceExceptionConverter
+    public Post selectPostById(Long postId, boolean getUser, boolean getComments) throws IllegalArgumentException {
+        PostDataEntity postDataEntity = this.postRepository.getReferenceById(postId);
+        if (getUser) Hibernate.initialize(postDataEntity.getUser());
+        if (getComments) Hibernate.initialize(postDataEntity.getComments());
         return null;
     }
 
     @Override
-    public Long updatePost(Post updatedPost) {
-        return null;
+    @PersistenceExceptionConverter
+    public Long updatePost(Post updatedPost) throws IllegalArgumentException, InternalPersistenceException {
+        PostDataEntity postDataEntity = this.postRepository.getReferenceById(updatedPost.getId());
+        postDataEntity.changePost(this.postMapper.toDataEntity(updatedPost));
+        return postDataEntity.getId();
     }
 
     @Override
-    public boolean deletePostById(Long postId) {
+    @PersistenceExceptionConverter
+    public boolean deletePostById(Long postId) throws IllegalArgumentException, InternalPersistenceException {
         return false;
     }
 
     @Override
-    public List<Comment> selectCommentsByPostId(Long postId) {
+    @PersistenceExceptionConverter
+    public List<Comment> selectCommentsByPostId(Long postId) throws IllegalArgumentException {
         return null;
     }
 
     @Override
-    public User selectUserByPostId(Long postId) {
+    @PersistenceExceptionConverter
+    public User selectUserByPostId(Long postId) throws IllegalArgumentException {
         return null;
     }
 
     @Override
-    public List<Post> selectPostByLocation(Location location, double allowRange) {
+    @PersistenceExceptionConverter
+    public List<Post> selectPostByLocation(Location location, double allowRange) throws IllegalArgumentException {
         return null;
     }
 }

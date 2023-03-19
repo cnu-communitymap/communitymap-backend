@@ -1,5 +1,6 @@
 package com.swacademy.mapcommunity.data.entity;
 
+import com.swacademy.mapcommunity.domain.entity.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,9 +34,8 @@ public class PostDataEntity extends BaseInformation {
     @Column(name = "position", nullable = false, columnDefinition = "GEOMETRY")
     private Point position;
 
-    //필요한가 싶어서 일단 제거
-//    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-//    private Long userId;
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
+    private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -43,6 +43,13 @@ public class PostDataEntity extends BaseInformation {
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentDataEntity> comments = new ArrayList<>();
+
+    public void changePost(PostDataEntity postDataEntity) {
+        this.title = postDataEntity.getTitle();
+        this.content = postDataEntity.getContent();
+        this.postLike = postDataEntity.getPostLike();
+        this.position = postDataEntity.getPosition();
+    }
 
     public void setUser(UserDataEntity user) {
         if (Objects.nonNull(this.user)) this.user.getPosts().remove(this);

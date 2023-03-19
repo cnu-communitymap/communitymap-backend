@@ -1,33 +1,42 @@
 package com.swacademy.mapcommunity.data;
 
+import com.swacademy.mapcommunity.data.entity.UserDataEntity;
 import com.swacademy.mapcommunity.data.jpa.UserJpaRepository;
+import com.swacademy.mapcommunity.data.mapper.UserMapper;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import com.swacademy.mapcommunity.domain.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class UserRepositoryJpaImpl implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
+    private final UserMapper userMapper;
 
-    public UserRepositoryJpaImpl(UserJpaRepository userJpaRepository) {
+    public UserRepositoryJpaImpl(UserJpaRepository userJpaRepository, UserMapper userMapper) {
         this.userJpaRepository = userJpaRepository;
+        this.userMapper = userMapper;
     }
 
 
     @Override
     public Long insertUser(User user) throws IllegalArgumentException, InternalPersistenceException {
-        return null;
+        UserDataEntity userDataEntity = this.userMapper.toDataEntity(user);
+        return this.userJpaRepository.save(userDataEntity).getId();
     }
 
     @Override
     public User selectUserById(Long userId) throws IllegalArgumentException {
-        return null;
+        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(userId);
+        return this.userMapper.toEntity(userDataEntity);
     }
 
     @Override
