@@ -1,12 +1,15 @@
 package com.swacademy.mapcommunity.domain.service;
 
 import com.swacademy.mapcommunity.MapcommunityBackendApplication;
+import com.swacademy.mapcommunity.data.entity.UserDataEntity;
 import com.swacademy.mapcommunity.data.jpa.PostJpaRepository;
 import com.swacademy.mapcommunity.data.jpa.UserJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Gender;
 import com.swacademy.mapcommunity.domain.entity.Location;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.*;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -36,8 +39,11 @@ class PostServiceTest {
     private Post newPost;
     private User newUser;
 
+    private UserDataEntity userData;
+
     @BeforeAll
-    public void setup() throws IOException {
+    @Transactional
+    public void setup() {
         newUser = new User();
         newUser.setEmail("purplepig4657@gmail.com");
         newUser.setPassword("asdf");
@@ -45,7 +51,17 @@ class PostServiceTest {
         newUser.setGender(Gender.MALE);
         newUser.setBirth(LocalDate.now());
 
-        userService.saveUser(newUser);
+        Long userId = userService.saveUser(newUser);
+
+        System.out.println(userId);
+
+        newUser = this.userService.getUserById(userId);
+        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(newUser.getId());
+        Hibernate.initialize(userDataEntity);
+        System.out.println(userDataEntity.getEmail());
+
+        System.out.println(newUser.getEmail());
+        System.out.println(newUser.getPosts());
 
         double latitude = 32.123;
         double longitude = 127.123;
@@ -58,13 +74,16 @@ class PostServiceTest {
         newPost.setCreatedAt(LocalDateTime.now());
         newPost.setPosition(new Location(1, 1));
 
-//        postService.savePost(newPost);
+        postService.savePost(newPost, newUser);
     }
 
     @Test
-    public void selectTest() throws IOException {
+    public void selectTest() {
         User referenceById = userService.getUserById(newUser.getId());
-        System.out.println(referenceById.getPosts());
+//        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(newUser.getId());
+//        System.out.println(userDataEntity);
+//        System.out.println(userDataEntity.getEmail());
+//        System.out.println(referenceById.getPosts());
 
         double latitude = 32.123;
         double longitude = 127.123;
@@ -77,7 +96,7 @@ class PostServiceTest {
         newPost.setCreatedAt(LocalDateTime.now());
         newPost.setPosition(new Location(1, 1));
 
-//        postService.savePost(newPost);
+        postService.savePost(newPost, newUser);
 
         System.out.println(newUser.getPosts());
 

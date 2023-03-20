@@ -65,7 +65,7 @@ public interface PostRepository {
      * @throws IllegalArgumentException When given id is wrong.
      * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    boolean deletePostById(Long postId) throws IllegalArgumentException, InternalPersistenceException;
+    void deletePostById(Long postId) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select comments on post with PostId. It can be replaced Post.getComments method.

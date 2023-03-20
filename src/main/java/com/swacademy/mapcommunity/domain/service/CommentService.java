@@ -61,9 +61,9 @@ public class CommentService {
     }
 
     @InternalServerExceptionConverter
-    public boolean deleteCommentById(Long commentId) throws IllegalArgumentException, InternalServerException {
+    public void deleteCommentById(Long commentId) throws IllegalArgumentException, InternalServerException {
         // @TODO Add authentication logic.
-        return commentRepository.deleteCommentById(commentId);
+        commentRepository.deleteCommentById(commentId);
     }
 
 }

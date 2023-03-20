@@ -55,9 +55,9 @@ public class PostService {
     }
 
     @InternalServerExceptionConverter
-    public boolean deletePostById(Long postId) throws IllegalArgumentException {
+    public void deletePostById(Long postId) throws IllegalArgumentException {
         // @TODO Add authentication logic.
-        return postRepository.deletePostById(postId);
+        postRepository.deletePostById(postId);
     }
 
     @InternalServerExceptionConverter

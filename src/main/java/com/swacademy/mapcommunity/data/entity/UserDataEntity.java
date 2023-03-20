@@ -39,6 +39,14 @@ public class UserDataEntity extends BaseInformation {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentDataEntity> comments = new ArrayList<>();
 
+    public void changeUser(UserDataEntity userDataEntity) {
+        this.email = userDataEntity.getEmail();
+        this.password = userDataEntity.getPassword();
+        this.nickname = userDataEntity.getNickname();
+        this.gender = userDataEntity.getGender();
+        this.birth = userDataEntity.getBirth();
+    }
+
     public void addPost(PostDataEntity post) {
         post.setUser(this);
     }

@@ -17,7 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Long saveUser(User user) throws IOException {
+    public Long saveUser(User user) {
         return userRepository.insertUser(user);
     }
 
@@ -49,8 +49,8 @@ public class UserService {
         return userRepository.updateUser(updatedUser);
     }
     
-    public boolean deleteUserById(Long userId) throws IOException {
-        return userRepository.deleteUserById(userId);
+    public void deleteUserById(Long userId) throws IOException {
+        userRepository.deleteUserById(userId);
     }
 
 }
