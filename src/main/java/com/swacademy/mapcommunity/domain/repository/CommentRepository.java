@@ -63,7 +63,7 @@ public interface CommentRepository {
      * @throws IllegalArgumentException When given id is wrong.
      * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    boolean deleteCommentById(Long commentId) throws IllegalArgumentException, InternalPersistenceException;
+    void deleteCommentById(Long commentId) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select author of given comment by commentId. It can replace Comment.getUser method.

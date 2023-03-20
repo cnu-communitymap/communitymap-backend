@@ -64,7 +64,7 @@ public interface UserRepository {
      * @throws IllegalArgumentException When given id is wrong.
      * @throws InternalPersistenceException When an exception is thrown in the data layer.
      */
-    boolean deleteUserById(Long userId) throws IllegalArgumentException, InternalPersistenceException;
+    void deleteUserById(Long userId) throws IllegalArgumentException, InternalPersistenceException;
 
     /**
      * Select posts created by user with userId. It can replace User.getPosts method.

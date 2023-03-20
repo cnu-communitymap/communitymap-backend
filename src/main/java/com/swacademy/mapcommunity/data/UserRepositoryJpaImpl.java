@@ -41,26 +41,36 @@ public class UserRepositoryJpaImpl implements UserRepository {
 
     @Override
     public User selectUserById(Long userId, boolean getPosts, boolean getComments) throws IllegalArgumentException {
-        return null;
+        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(userId);
+        if (getPosts) Hibernate.initialize(userDataEntity.getPosts());
+        if (getComments) Hibernate.initialize(userDataEntity.getComments());
+        return this.userMapper.toEntity(userDataEntity);
     }
 
     @Override
     public Long updateUser(User updatedUser) throws IllegalArgumentException, InternalPersistenceException {
-        return null;
+        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(updatedUser.getId());
+        userDataEntity.changeUser(this.userMapper.toDataEntity(updatedUser));
+        return userDataEntity.getId();
     }
 
     @Override
-    public boolean deleteUserById(Long userId) throws IllegalArgumentException, InternalPersistenceException {
-        return false;
+    public void deleteUserById(Long userId) throws IllegalArgumentException, InternalPersistenceException {
+        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(userId);
+        this.userJpaRepository.delete(userDataEntity);
     }
 
     @Override
     public List<Post> selectPostsByUserId(Long userId) throws IllegalArgumentException {
-        return null;
+        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(userId);
+        Hibernate.initialize(userDataEntity.getPosts());
+        return this.userMapper.toEntity(userDataEntity).getPosts();
     }
 
     @Override
     public List<Comment> selectCommentsByUserId(Long userId) throws IllegalArgumentException {
-        return null;
+        UserDataEntity userDataEntity = this.userJpaRepository.getReferenceById(userId);
+        Hibernate.initialize(userDataEntity.getComments());
+        return this.userMapper.toEntity(userDataEntity).getComments();
     }
 }

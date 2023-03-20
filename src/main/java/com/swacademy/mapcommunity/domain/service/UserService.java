@@ -49,8 +49,8 @@ public class UserService {
         return userRepository.updateUser(updatedUser);
     }
     
-    public boolean deleteUserById(Long userId) throws IOException {
-        return userRepository.deleteUserById(userId);
+    public void deleteUserById(Long userId) throws IOException {
+        userRepository.deleteUserById(userId);
     }
 
 }
