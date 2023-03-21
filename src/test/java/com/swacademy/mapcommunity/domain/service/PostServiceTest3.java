@@ -7,11 +7,10 @@ import com.swacademy.mapcommunity.data.entity.UserDataEntity;
 import com.swacademy.mapcommunity.data.jpa.PostJpaRepository;
 import com.swacademy.mapcommunity.data.jpa.UserJpaRepository;
 import com.swacademy.mapcommunity.data.mapper.UserMapper;
+import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Location;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
-import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -35,6 +34,8 @@ class PostServiceTest3 {
     @Autowired
     UserService userService;
     @Autowired
+    CommentService commentService;
+    @Autowired
     PostJpaRepository postJpaRepository;
     @Autowired
     UserJpaRepository userJpaRepository;
@@ -42,6 +43,7 @@ class PostServiceTest3 {
     UserMapper userMapper;
 
     private Post newPost;
+    private Comment newComment;
     private UserDataEntity newUser;
 
     @BeforeAll
@@ -71,6 +73,14 @@ class PostServiceTest3 {
         newPost.setPosition(new Location(1, 1));
 
         newPost.setId(postService.savePost(newPost, mappedUser));
+
+        newComment = new Comment();
+        newComment.setPost(newPost);
+        newComment.setUser(this.userMapper.toEntity(newUser));
+        newComment.setContent("asdf");
+        newComment.setCreatedAt(LocalDateTime.now());
+
+        commentService.saveComment(newComment, newPost.getId(), this.userMapper.toEntity(newUser));
     }
 
     @Test
@@ -97,6 +107,15 @@ class PostServiceTest3 {
 
         System.out.println(updatedPost.getContent());
 
+    }
+
+    @Test
+    public void test2() {
+        Post post = this.postService.getPostWithUserAndCommentById(newPost.getId());
+
+        System.out.println(post.getUser().getNickname());
+
+        System.out.println(post.getComments().get(0).getCreatedAt());
     }
 
 }

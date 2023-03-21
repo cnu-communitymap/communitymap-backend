@@ -49,7 +49,7 @@ public class PostRepositoryJpaImpl implements PostRepository {
         PostDataEntity postDataEntity = this.postJpaRepository.getReferenceById(postId);
         if (getUser) Hibernate.initialize(postDataEntity.getUser());
         if (getComments) Hibernate.initialize(postDataEntity.getComments());
-        return null;
+        return this.postMapper.toEntity(postDataEntity);
     }
 
     @Override
