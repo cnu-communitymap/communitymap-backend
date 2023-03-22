@@ -53,4 +53,20 @@ public class UserService {
         userRepository.deleteUserById(userId);
     }
 
+    /**
+     * if logged -> return User
+     * else -> return null;
+     * @return User
+     */
+    public User getLoggedInUser() {
+// Security
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            String memberId = authentication.getName();
+//            return memberRepository.findByMemberId(memberId).get();
+//        }
+
+        //put in temporarily //to be converted to security
+        return getUserById(20200411L);
+    }
 }
