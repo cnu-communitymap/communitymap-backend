@@ -7,6 +7,7 @@ import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.exception.InternalServerException;
 import com.swacademy.mapcommunity.domain.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,14 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserService userService;
 
     private final int ALLOWED_POST_RANGE = 100;
 
-    public PostService(PostRepository postRepository) {
+    @Autowired
+    public PostService(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
+        this.userService = userService;
     }
 
     @InternalServerExceptionConverter
@@ -57,6 +61,12 @@ public class PostService {
     @InternalServerExceptionConverter
     public void deletePostById(Long postId) throws IllegalArgumentException {
         // @TODO Add authentication logic.
+        User loggedUser = userService.getLoggedInUser();
+        if (loggedUser == null ||
+                ! getPostById(postId).getUser().getId().equals(loggedUser.getId()))
+        {
+            throw new IllegalArgumentException("not the user who wrote the post");
+        }
         postRepository.deletePostById(postId);
     }
 
