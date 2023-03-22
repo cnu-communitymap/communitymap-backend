@@ -1,6 +1,8 @@
 package com.swacademy.mapcommunity.presentation.controller;
 
 import com.swacademy.mapcommunity.domain.entity.Comment;
+import com.swacademy.mapcommunity.domain.service.CommentService;
+import com.swacademy.mapcommunity.domain.service.UserService;
 import com.swacademy.mapcommunity.presentation.dto.CommentDto;
 import com.swacademy.mapcommunity.presentation.mapper.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +14,26 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentMapper commentMapper;
+    private final CommentService commentService;
+    private final UserService userService;
 
     @Autowired
-    public CommentController(CommentMapper commentMapper) {
+    public CommentController(CommentMapper commentMapper, CommentService commentService, UserService userService) {
         this.commentMapper = commentMapper;
+        this.commentService = commentService;
+        this.userService = userService;
     }
 
-    @PostMapping(value ="/register")
-    public ResponseEntity<Long> register(@RequestBody CommentDto commentDto) {
+    @PostMapping(value ="/write")
+    public ResponseEntity<Long> create(@RequestBody CommentDto commentDto) {
         Comment entity = commentMapper.toEntity(commentDto);
-
+        commentService.saveComment(entity, entity.getPost().getId(), userService.getLoggedInUser());
         return ResponseEntity.ok(entity.getId());
+    }
+
+    @GetMapping(value = "/delete")
+    public void delete(@RequestParam("commentId") Long commentId){
+        commentService.deleteCommentById(commentId);
     }
 
 }
