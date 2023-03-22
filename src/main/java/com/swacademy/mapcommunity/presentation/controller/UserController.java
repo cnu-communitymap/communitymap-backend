@@ -1,4 +1,4 @@
-package com.swacademy.mapcommunity.controller;
+package com.swacademy.mapcommunity.presentation.controller;
 
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.service.UserService;
