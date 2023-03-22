@@ -13,7 +13,7 @@ import java.util.List;
 @Getter @Setter
 public class UserDataEntity extends BaseInformation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)  //@Todo UUID의 random 생성 또는 GenerationType을 change
     @Column(name = "id", nullable = false, insertable = false, updatable = false)
     private Long id;
 
