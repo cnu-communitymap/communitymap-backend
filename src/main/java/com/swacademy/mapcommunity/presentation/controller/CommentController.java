@@ -31,6 +31,18 @@ public class CommentController {
         return ResponseEntity.ok(entity.getId());
     }
 
+    @PostMapping(value = "/update")
+    public ResponseEntity<Long> update(@RequestBody CommentDto commentDto) {
+        Long commentId = commentService.updateComment(commentMapper.toEntity(commentDto));
+        return ResponseEntity.ok(commentId);
+    }
+
+    @GetMapping(value = "/read")
+    public CommentDto read(@RequestParam("commentId") Long commentId) {
+        Comment entity = commentService.getCommentById(commentId);
+        return commentMapper.toDto(entity);
+    }
+
     @GetMapping(value = "/delete")
     public void delete(@RequestParam("commentId") Long commentId){
         commentService.deleteCommentById(commentId);

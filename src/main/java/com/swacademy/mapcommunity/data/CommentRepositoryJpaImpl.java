@@ -8,10 +8,12 @@ import com.swacademy.mapcommunity.data.jpa.CommentJpaRepository;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import com.swacademy.mapcommunity.domain.repository.CommentRepository;
+import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Transactional
 public class CommentRepositoryJpaImpl implements CommentRepository {
 
     private final CommentJpaRepository commentJpaRepository;
