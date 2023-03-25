@@ -9,6 +9,7 @@ public class CommentDto {
     private Long id;
     private String content;
     private Integer commentLike;
+    private Long postedId;
     private UserDto user;
     private PostDto post;
 

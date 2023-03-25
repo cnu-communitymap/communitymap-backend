@@ -1,5 +1,6 @@
 package com.swacademy.mapcommunity.presentation.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.swacademy.mapcommunity.data.entity.Gender;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class UserDto {
     private Gender gender;
     private LocalDate birth;
     private List<PostDto> posts = new ArrayList<>();
+    @JsonIgnore
     private List<CommentDto> comments = new ArrayList<>();
 
 }
