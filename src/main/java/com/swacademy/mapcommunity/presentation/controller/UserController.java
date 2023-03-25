@@ -1,5 +1,7 @@
 package com.swacademy.mapcommunity.presentation.controller;
 
+import com.swacademy.mapcommunity.domain.entity.Comment;
+import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.service.UserService;
 import com.swacademy.mapcommunity.presentation.dto.UserDto;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -43,6 +46,20 @@ public class UserController {
         User loggedUser = userService.getLoggedInUser();
         User entity = userService.getUserById(loggedUser.getId());
         return userMapper.toDto(entity);
+    }
+
+    @GetMapping(value ="/posts")
+    public List<Post> readPosts() {
+        User loggedUser = userService.getLoggedInUser();
+
+        return userService.getUserPostsByUserId(loggedUser.getId());
+    }
+
+    @GetMapping(value = "/comments")
+    public List<Comment> readComments() {
+        User loggedUser = userService.getLoggedInUser();
+
+        return userService.getUserCommentsByUserId(loggedUser.getId());
     }
 
     @GetMapping(value = "/delete")
