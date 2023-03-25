@@ -1,5 +1,7 @@
 package com.swacademy.mapcommunity.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +17,11 @@ public class Post extends BaseInformation {
     private String content;
     private Integer postLike;
     private Location position;
-//    private Long userId;
+    //    private Long userId;
+    @JsonBackReference
     private User user;
+
+    @JsonIgnoreProperties(value = {"post"}, allowSetters = true)
     private List<Comment> comments = new ArrayList<>();
 
     public Post() { super(); }
@@ -37,7 +42,7 @@ public class Post extends BaseInformation {
     public void setUser(User user) {
         if (Objects.nonNull(this.user)) this.user.getPosts().remove(this);
         this.user = user;
-        this.user.getPosts().add(this);
+        //this.user.getPosts().add(this);
     }
 
     /**

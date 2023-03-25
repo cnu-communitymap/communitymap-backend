@@ -43,7 +43,7 @@ public class CommentDataEntity extends BaseInformation {
     public void setUser(UserDataEntity user) {
         if (Objects.nonNull(this.user)) this.user.getComments().remove(this);
         this.user = user;
-        user.getComments().add(this);
+        //user.getComments().add(this);
     }
 
     /**
@@ -60,7 +60,7 @@ public class CommentDataEntity extends BaseInformation {
     public void setPost(PostDataEntity post) {
         if (Objects.nonNull(this.post)) this.post.getComments().remove(this);
         this.post = post;
-        post.getComments().add(this);
+        //post.getComments().add(this);
     }
 
     public void unsetPost(PostDataEntity post) {
