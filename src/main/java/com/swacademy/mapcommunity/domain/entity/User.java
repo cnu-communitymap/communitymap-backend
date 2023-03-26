@@ -1,5 +1,6 @@
 package com.swacademy.mapcommunity.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,9 @@ public class User extends BaseInformation {
     private String nickname;
     private Gender gender;
     private LocalDate birth;
-    private List<Post> posts = new ArrayList<>();
-    private List<Comment> comments = new ArrayList<>();
+    @JsonIgnoreProperties("user")
+    private transient List<Post> posts = new ArrayList<>();
+    private transient List<Comment> comments = new ArrayList<>();
 
     public User() { super(); }
 

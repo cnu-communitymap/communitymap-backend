@@ -1,6 +1,5 @@
 package com.swacademy.mapcommunity.data.entity;
 
-import com.swacademy.mapcommunity.domain.entity.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,8 +33,8 @@ public class PostDataEntity extends BaseInformation {
     @Column(name = "position", nullable = false, columnDefinition = "GEOMETRY")
     private Point position;
 
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    private Long userId;
+    @Column(name = "posted_userid", nullable = false)
+    private Long postedUserId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -54,7 +53,7 @@ public class PostDataEntity extends BaseInformation {
     public void setUser(UserDataEntity user) {
         if (Objects.nonNull(this.user)) this.user.getPosts().remove(this);
         this.user = user;
-        user.getPosts().add(this);
+        //user.getPosts().add(this);
     }
 
     /**
