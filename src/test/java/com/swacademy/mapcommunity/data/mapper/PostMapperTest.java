@@ -7,6 +7,7 @@ import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Location;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
+import org.geolatte.geom.M;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -27,7 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PostMapperTest {
 
     private final ModelMapper modelMapper = new ModelMapper();
-    private final PostMapper postMapper = new PostMapper(modelMapper);
+    private final CommentMapper commentMapper = new CommentMapper(modelMapper);
+    private final PostMapper postMapper = new PostMapper(modelMapper, commentMapper);
 
     @Test
     @DisplayName("Object mapper test with User, Post")
