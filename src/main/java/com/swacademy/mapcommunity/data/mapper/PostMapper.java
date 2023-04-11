@@ -1,8 +1,6 @@
 package com.swacademy.mapcommunity.data.mapper;
 
-import com.swacademy.mapcommunity.data.entity.CommentDataEntity;
 import com.swacademy.mapcommunity.data.entity.PostDataEntity;
-import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Location;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import org.locationtech.jts.geom.Coordinate;
@@ -39,12 +37,12 @@ public class PostMapper {
         if (position != null) {
             postDataEntity.setPosition(new GeometryFactory().createPoint(new Coordinate(position.longitude(), position.latitude())));
         }
-        List<CommentDataEntity> commentDataEntities = new ArrayList<>();
-        for (Comment comment : post.getComments()) {
-            CommentDataEntity commentDataEntity = commentMapper.toDataEntity(comment);
-            commentDataEntities.add(commentDataEntity);
-        }
-        postDataEntity.setComments(commentDataEntities);
+//        List<CommentDataEntity> commentDataEntities = new ArrayList<>();
+//        for (Comment comment : post.getComments()) {
+//            CommentDataEntity commentDataEntity = commentMapper.toDataEntity(comment);
+//            commentDataEntities.add(commentDataEntity);
+//        }
+//        postDataEntity.setComments(commentDataEntities);
 
         return postDataEntity;
     }
@@ -62,12 +60,12 @@ public class PostMapper {
             post.setPosition(new Location(point.getY(), point.getX()));
         }
 
-        List<Comment> comments = new ArrayList<>();
-        for (CommentDataEntity commentDataEntity : postDataEntity.getComments()) {
-            Comment comment = commentMapper.toEntity(commentDataEntity);
-            comments.add(comment);
-        }
-        post.setComments(comments);
+//        List<Comment> comments = new ArrayList<>();
+//        for (CommentDataEntity commentDataEntity : postDataEntity.getComments()) {
+//            Comment comment = commentMapper.toEntity(commentDataEntity);
+//            comments.add(comment);
+//        }
+//        post.setComments(comments);
 
         return post;
     }
