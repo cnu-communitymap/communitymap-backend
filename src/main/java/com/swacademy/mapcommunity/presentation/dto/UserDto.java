@@ -18,6 +18,7 @@ public class UserDto {
     private String nickname;
     private Gender gender;
     private LocalDate birth;
+    @JsonIgnore
     private List<PostDto> posts = new ArrayList<>();
     @JsonIgnore
     private List<CommentDto> comments = new ArrayList<>();

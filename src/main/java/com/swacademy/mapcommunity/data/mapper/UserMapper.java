@@ -36,8 +36,8 @@ public class UserMapper {
         this.postMapper = postMapper;
         this.commentMapper = commentMapper;
 
-        modelMapper.createTypeMap(Post.class, PostDataEntity.class)
-                .addMappings(mapper -> mapper.using(pointConverter()).map(Post::getPosition, PostDataEntity::setPosition));
+//        modelMapper.createTypeMap(Post.class, PostDataEntity.class)
+//                .addMappings(mapper -> mapper.using(pointConverter()).map(Post::getPosition, PostDataEntity::setPosition));
         this.modelMapper.createTypeMap(Location.class, Point.class);
    }
 
