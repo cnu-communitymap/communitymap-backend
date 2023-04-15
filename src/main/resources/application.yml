@@ -5,3 +5,5 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+upload:
+  path: C:/Users/user/Desktop   # @Todo serverip

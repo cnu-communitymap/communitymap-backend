@@ -36,6 +36,12 @@ public class PostDataEntity extends BaseInformation {
     @Column(name = "posted_userid", nullable = false)
     private Long postedUserId;
 
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "file_path")
+    private String filePath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserDataEntity user;
