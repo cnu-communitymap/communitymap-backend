@@ -36,12 +36,14 @@ public class PostService {
     @InternalServerExceptionConverter
     public Long savePost(Post post, User writer, MultipartFile file) throws IllegalArgumentException, InternalServerException, IOException {
         // Get the external upload path
-        String uploadPath = environment.getProperty("upload.path");
-        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename(); //Create UUID and append it to FileName
-        File saveFile = new File(uploadPath, filename);    //Save the uploaded file to the actual path
-        file.transferTo(saveFile);      //Using the transferTo() method, move the uploaded file to the corresponding file object.
-        post.setFileName(filename);
-        post.setFilePath(uploadPath);
+        if (file != null){
+            String uploadPath = environment.getProperty("upload.path");
+            String filename = UUID.randomUUID() + "_" + file.getOriginalFilename(); //Create UUID and append it to FileName
+            File saveFile = new File(uploadPath, filename);    //Save the uploaded file to the actual path
+            file.transferTo(saveFile);      //Using the transferTo() method, move the uploaded file to the corresponding file object.
+            post.setFileName(filename);
+            post.setFilePath(uploadPath);
+        }
         post.setUser(writer);
         return postRepository.insertPost(post);
     }
@@ -52,8 +54,13 @@ public class PostService {
      */
     @InternalServerExceptionConverter
     public String getImageUrl(Post post) {
-        String domain = "http://localhost:8080";      //@Todo Change server ip
-        return domain + "/images/" + post.getFileName();
+
+        if(post.getFileName() == null){   //no img
+            return null;
+        }
+        else {
+            return "http://localhost:8080"+"/images/" + post.getFileName();      //@Todo Change server ip
+        }
     }
 
     @InternalServerExceptionConverter

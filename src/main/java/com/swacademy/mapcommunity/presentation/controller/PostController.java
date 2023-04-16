@@ -39,7 +39,7 @@ public class PostController {
     @PostMapping(value = "/write",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Long> create(
             @RequestPart(value = "post") PostDto postDto,
-            @RequestPart(value = "file", required = true) MultipartFile file
+            @RequestPart(value = "file", required = false) MultipartFile file
     ) throws IOException {
         Post entity = postMapper.toEntity(postDto);
 
