@@ -16,6 +16,7 @@ public class PostDto {
     private String content;
     private Integer postLike;
     private Location position;
+    private String imageUrl;
     private Long postedUserId;
     private UserDto user;
     @JsonIgnore

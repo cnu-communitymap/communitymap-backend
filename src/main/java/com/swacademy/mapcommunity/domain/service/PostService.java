@@ -8,28 +8,59 @@ import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.exception.InternalServerException;
 import com.swacademy.mapcommunity.domain.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
+    private final Environment environment;
 
     private final int ALLOWED_POST_RANGE = 100;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserService userService) {
+    public PostService(PostRepository postRepository, UserService userService, Environment environment) {
         this.postRepository = postRepository;
         this.userService = userService;
+        this.environment = environment;
     }
 
     @InternalServerExceptionConverter
-    public Long savePost(Post post, User writer) throws IllegalArgumentException, InternalServerException {
-        post.setUser(writer);  // @TODO Change this code that using spring security.
+    public Long savePost(Post post, User writer, MultipartFile file) throws IllegalArgumentException, InternalServerException, IOException {
+        // Get the external upload path
+        if (file != null){
+            String uploadPath = environment.getProperty("upload.path");
+            String filename = UUID.randomUUID() + "_" + file.getOriginalFilename(); //Create UUID and append it to FileName
+            File saveFile = new File(uploadPath, filename);    //Save the uploaded file to the actual path
+            file.transferTo(saveFile);      //Using the transferTo() method, move the uploaded file to the corresponding file object.
+            post.setFileName(filename);
+            post.setFilePath(uploadPath);
+        }
+        post.setUser(writer);
         return postRepository.insertPost(post);
+    }
+
+    /**
+     * @param post Post
+     * @return : The URL to be provided to the client.
+     */
+    @InternalServerExceptionConverter
+    public String getImageUrl(Post post) {
+
+        if(post.getFileName() == null){   //no img
+            return null;
+        }
+        else {
+            return "http://localhost:8080"+"/images/" + post.getFileName();      //@Todo Change server ip
+        }
     }
 
     @InternalServerExceptionConverter

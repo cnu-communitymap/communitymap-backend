@@ -17,6 +17,8 @@ public class Post extends BaseInformation {
     private Integer postLike;
     private Location position;
     private Long postedUserId;
+    private String fileName;
+    private String filePath;
     @JsonBackReference
     private User user;
     @JsonManagedReference
