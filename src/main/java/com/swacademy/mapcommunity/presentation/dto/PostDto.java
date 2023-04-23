@@ -1,6 +1,7 @@
 package com.swacademy.mapcommunity.presentation.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.swacademy.mapcommunity.domain.entity.Category;
 import com.swacademy.mapcommunity.domain.entity.Location;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class PostDto {
     private String imageUrl;
     private Long postedUserId;
     private UserDto user;
+    private Category category;
     @JsonIgnore
     private List<CommentDto> comments = new ArrayList<>();
 

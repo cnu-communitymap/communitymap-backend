@@ -19,6 +19,7 @@ public class Post extends BaseInformation {
     private Long postedUserId;
     private String fileName;
     private String filePath;
+    private Category category;
     @JsonBackReference
     private User user;
     @JsonManagedReference
