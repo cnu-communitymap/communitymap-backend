@@ -4,10 +4,7 @@ import com.swacademy.mapcommunity.aop.PersistenceExceptionConverter;
 import com.swacademy.mapcommunity.data.entity.PostDataEntity;
 import com.swacademy.mapcommunity.data.jpa.PostJpaRepository;
 import com.swacademy.mapcommunity.data.mapper.PostMapper;
-import com.swacademy.mapcommunity.domain.entity.Post;
-import com.swacademy.mapcommunity.domain.entity.User;
-import com.swacademy.mapcommunity.domain.entity.Comment;
-import com.swacademy.mapcommunity.domain.entity.Location;
+import com.swacademy.mapcommunity.domain.entity.*;
 import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 import com.swacademy.mapcommunity.domain.repository.PostRepository;
 import jakarta.transaction.Transactional;
@@ -15,6 +12,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional
@@ -89,4 +87,13 @@ public class PostRepositoryJpaImpl implements PostRepository {
         // @TODO Implement this.
         return null;
     }
+
+    @Override
+    @PersistenceExceptionConverter
+    public List<Post> selectPostByCategory(Category category) throws IllegalArgumentException {
+        com.swacademy.mapcommunity.data.entity.Category dataCategory = Enum.valueOf(com.swacademy.mapcommunity.data.entity.Category.class, category.toString());
+        List<PostDataEntity> postDataEntities = this.postJpaRepository.findAllByCategory(dataCategory);
+        return postDataEntities.stream().map(this.postMapper::toEntity).collect(Collectors.toList());
+    }
 }
+
