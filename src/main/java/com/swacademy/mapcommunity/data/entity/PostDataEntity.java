@@ -33,6 +33,9 @@ public class PostDataEntity extends BaseInformation {
     @Column(name = "position", nullable = false, columnDefinition = "GEOMETRY")
     private Point position;
 
+    @Column(name = "category")
+    private Category category;
+
     @Column(name = "posted_userid", nullable = false)
     private Long postedUserId;
 
