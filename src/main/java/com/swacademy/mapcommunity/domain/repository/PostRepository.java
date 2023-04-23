@@ -1,9 +1,6 @@
 package com.swacademy.mapcommunity.domain.repository;
 
-import com.swacademy.mapcommunity.domain.entity.Comment;
-import com.swacademy.mapcommunity.domain.entity.Location;
-import com.swacademy.mapcommunity.domain.entity.Post;
-import com.swacademy.mapcommunity.domain.entity.User;
+import com.swacademy.mapcommunity.domain.entity.*;
 import com.swacademy.mapcommunity.domain.exception.InternalPersistenceException;
 
 import java.util.List;
@@ -101,4 +98,5 @@ public interface PostRepository {
      */
     List<Post> selectPostByLocation(Location location, double allowRange) throws IllegalArgumentException;
 
+    List<Post> selectPostByCategory(Category category) throws IllegalArgumentException;
 }

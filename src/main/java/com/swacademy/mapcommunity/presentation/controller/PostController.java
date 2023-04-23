@@ -1,5 +1,6 @@
 package com.swacademy.mapcommunity.presentation.controller;
 
+import com.swacademy.mapcommunity.domain.entity.Category;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.service.PostService;
@@ -67,6 +68,12 @@ public class PostController {
     public List<CommentDto> readComments(@RequestParam Long postId) {
         List<Comment> comments = postService.getCommentsByPostId(postId);
         return comments.stream().map(commentMapper::toDto).collect(Collectors.toList());
+    }
+
+    @GetMapping(value = "/category")
+    public List<PostDto> readByCategory(@RequestParam("category")Category category) {
+        List<Post> posts = postService.getPostsByCategory(category);
+        return posts.stream().map(postMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/delete")
