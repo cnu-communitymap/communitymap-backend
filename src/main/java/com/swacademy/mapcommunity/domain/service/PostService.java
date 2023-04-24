@@ -100,6 +100,11 @@ public class PostService {
     }
 
     @InternalServerExceptionConverter
+    public List<Post> getPostsAll() {
+        return postRepository.selectPostAll();
+    }
+
+    @InternalServerExceptionConverter
     public List<Post> getPostsByLocation(Location location) {
         return postRepository.selectPostByLocation(location, this.ALLOWED_POST_RANGE);
     }

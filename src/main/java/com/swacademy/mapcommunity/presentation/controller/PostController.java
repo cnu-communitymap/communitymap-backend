@@ -55,6 +55,12 @@ public class PostController {
         return ResponseEntity.ok(postId);
     }
 
+    @GetMapping(value = "read/all")
+    public List<PostDto> readAll() {
+        List<Post> posts = postService.getPostsAll();
+        return posts.stream().map(postMapper::toDto).collect(Collectors.toList());
+    }
+
     @GetMapping(value = "/read")
     public PostDto read(@RequestParam("postId") Long postId) {
         Post entity = postService.getPostById(postId);
