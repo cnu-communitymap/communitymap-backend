@@ -4,7 +4,6 @@ import com.swacademy.mapcommunity.aop.InternalServerExceptionConverter;
 import com.swacademy.mapcommunity.domain.entity.*;
 import com.swacademy.mapcommunity.domain.exception.InternalServerException;
 import com.swacademy.mapcommunity.domain.repository.PostRepository;
-import com.swacademy.mapcommunity.presentation.dto.PostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -57,7 +56,8 @@ public class PostService {
             return null;
         }
         else {
-            return "http://localhost:8080"+"/images/" + post.getFileName();      //@Todo Change server ip
+            return "http://" + environment.getProperty("server.ip") +":" + environment.getProperty("server.port") + "/images/" + post.getFileName();
+            //return "http://localhost:8080"+"/images/" + post.getFileName();     //local에서 실행
         }
     }
 
