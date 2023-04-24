@@ -99,4 +99,6 @@ public interface PostRepository {
     List<Post> selectPostByLocation(Location location, double allowRange) throws IllegalArgumentException;
 
     List<Post> selectPostByCategory(Category category) throws IllegalArgumentException;
+
+    List<Post> selectPostAll() throws IllegalArgumentException;
 }

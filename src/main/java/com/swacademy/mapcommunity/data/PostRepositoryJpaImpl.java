@@ -95,5 +95,10 @@ public class PostRepositoryJpaImpl implements PostRepository {
         List<PostDataEntity> postDataEntities = this.postJpaRepository.findAllByCategory(dataCategory);
         return postDataEntities.stream().map(this.postMapper::toEntity).collect(Collectors.toList());
     }
-}
 
+    @Override
+    public List<Post> selectPostAll() throws IllegalArgumentException {
+        List<PostDataEntity> postDataEntities = postJpaRepository.findAll();
+        return postDataEntities.stream().map(this.postMapper::toEntity).collect(Collectors.toList());
+    }
+}
