@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/prod
-    username: admin
-    password:
+    url: jdbc:postgresql://10.39.156.214:5432/prod
+    username: postgres
+    password: '@cnuswuser20'
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
     open-in-view: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create   #Todo validate
