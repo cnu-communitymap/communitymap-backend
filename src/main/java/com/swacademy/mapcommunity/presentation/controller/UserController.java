@@ -3,6 +3,7 @@ package com.swacademy.mapcommunity.presentation.controller;
 import com.swacademy.mapcommunity.domain.entity.Comment;
 import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
+import com.swacademy.mapcommunity.domain.service.PostService;
 import com.swacademy.mapcommunity.domain.service.UserService;
 import com.swacademy.mapcommunity.presentation.dto.CommentDto;
 import com.swacademy.mapcommunity.presentation.dto.PostDto;
@@ -24,13 +25,15 @@ public class UserController {
 
     private final UserMapper userMapper;
     private final UserService userService;
+    private final PostService postService;
     private final PostMapper postMapper;
     private final CommentMapper commentMapper;
 
     @Autowired
-    public UserController(UserMapper userMapper, UserService userService, PostMapper postMapper, CommentMapper commentMapper) {
+    public UserController(UserMapper userMapper, UserService userService, PostService postService, PostMapper postMapper, CommentMapper commentMapper) {
         this.userMapper = userMapper;
         this.userService = userService;
+        this.postService = postService;
         this.postMapper = postMapper;
         this.commentMapper = commentMapper;
     }
@@ -60,9 +63,14 @@ public class UserController {
     @GetMapping(value ="/posts")
     public List<PostDto> readPosts() {
         User loggedUser = userService.getLoggedInUser();
-
         List<Post> posts = userService.getUserPostsByUserId(loggedUser.getId());
-        return posts.stream().map(postMapper::toDto).collect(Collectors.toList());   //Entity -> Dto
+        return posts.stream()
+                .map(post -> {
+                    PostDto postDto = postMapper.toDto(post);
+                    postDto.setImageUrl(postService.getImageUrl(post));
+                    return postDto;
+                })
+                .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/comments")

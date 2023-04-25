@@ -57,7 +57,7 @@ public class PostService {
         }
         else {
             return "http://" + environment.getProperty("server.ip") +":" + environment.getProperty("server.port") + "/images/" + post.getFileName();
-            //return "http://localhost:8080"+"/images/" + post.getFileName();     //local에서 실행
+            //return "http://localhost:1010"+"/images/" + post.getFileName();     //local에서 실행
         }
     }
 

@@ -8,4 +8,4 @@ server:
       force: true
 upload:
   path: /home/img
-  #  path: C:/Users/user/Desktop
+  #path: C:/Users/user/Desktop/img

@@ -58,7 +58,13 @@ public class PostController {
     @GetMapping(value = "read/all")
     public List<PostDto> readAll() {
         List<Post> posts = postService.getPostsAll();
-        return posts.stream().map(postMapper::toDto).collect(Collectors.toList());
+        return posts.stream()
+                .map(post -> {
+                    PostDto postDto = postMapper.toDto(post);
+                    postDto.setImageUrl(postService.getImageUrl(post));
+                    return postDto;
+                })
+                .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/read")
@@ -77,9 +83,15 @@ public class PostController {
     }
 
     @GetMapping(value = "/category")
-    public List<PostDto> readByCategory(@RequestParam("category")Category category) {
+    public List<PostDto> readByCategory(@RequestParam("category") Category category) {
         List<Post> posts = postService.getPostsByCategory(category);
-        return posts.stream().map(postMapper::toDto).collect(Collectors.toList());
+        return posts.stream()
+                .map(post -> {
+                    PostDto postDto = postMapper.toDto(post);
+                    postDto.setImageUrl(postService.getImageUrl(post));
+                    return postDto;
+                })
+                .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/delete")
