@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,8 +57,18 @@ public class PostService {
             return null;
         }
         else {
-            return "http://" + environment.getProperty("server.ip") +":" + environment.getProperty("server.port") + "/images/" + post.getFileName();
-            //return "http://localhost:8080"+"/images/" + post.getFileName();     //local에서 실행
+            if (Arrays.asList(environment.getActiveProfiles()).contains("local")) {
+                return "http://localhost:" + environment.getProperty("server.port")
+                        + environment.getProperty("server.servlet.context-path")
+                        + "/images/" + post.getFileName();
+            } else if (Arrays.asList(environment.getActiveProfiles()).contains("prod")) {
+                return "http://" + environment.getProperty("server.ip")
+                        + environment.getProperty("server.servlet.context-path")
+                        + "/images/" + post.getFileName();
+            } else {
+                return null;
+            }
+
         }
     }
 
