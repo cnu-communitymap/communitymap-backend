@@ -1,11 +1,8 @@
 server:
-  ip: 175.106.91.172
-  port: 9090
+  port: 8080
   servlet:
+    context-path: /mapcommu
     encoding:
       charset: UTF-8
       enabled: true
       force: true
-upload:
-  path: /home/img
-  #path: C:/Users/user/Desktop/img

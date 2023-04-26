@@ -1,12 +1,16 @@
+server:
+  ip: 118.67.154.247   #web server ip - use to create url
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://10.39.156.214:5432/prod
+    url: jdbc:postgresql://10.37.0.138:5432/prod  # db server ip and database name
     username: postgres
-    password: '@cnuswuser20'
+    password: '@mapcommu_cnu!'
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
     open-in-view: true
     hibernate:
       ddl-auto: create   #Todo validate
+upload:
+  path: /home/img
