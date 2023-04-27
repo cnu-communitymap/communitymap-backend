@@ -88,4 +88,5 @@ public interface UserRepository {
      */
     List<Comment> selectCommentsByUserId(Long userId) throws IllegalArgumentException;
 
+    User selectUserByEmail(String email) throws IllegalArgumentException;
 }

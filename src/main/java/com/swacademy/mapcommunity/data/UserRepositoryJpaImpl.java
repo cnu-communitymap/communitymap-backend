@@ -73,4 +73,10 @@ public class UserRepositoryJpaImpl implements UserRepository {
         Hibernate.initialize(userDataEntity.getComments());
         return this.userMapper.toEntity(userDataEntity).getComments();
     }
+
+    @Override
+    public User selectUserByEmail(String email) throws IllegalArgumentException {
+        UserDataEntity userDataEntity = this.userJpaRepository.findByEmail(email);
+        return this.userMapper.toEntity(userDataEntity);
+    }
 }

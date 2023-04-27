@@ -5,12 +5,11 @@ import com.swacademy.mapcommunity.domain.entity.Post;
 import com.swacademy.mapcommunity.domain.entity.User;
 import com.swacademy.mapcommunity.domain.service.PostService;
 import com.swacademy.mapcommunity.domain.service.UserService;
-import com.swacademy.mapcommunity.presentation.dto.CommentDto;
-import com.swacademy.mapcommunity.presentation.dto.PostDto;
-import com.swacademy.mapcommunity.presentation.dto.UserDto;
+import com.swacademy.mapcommunity.presentation.dto.*;
 import com.swacademy.mapcommunity.presentation.mapper.CommentMapper;
 import com.swacademy.mapcommunity.presentation.mapper.PostMapper;
 import com.swacademy.mapcommunity.presentation.mapper.UserMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +50,13 @@ public class UserController {
         userDto.setId(loggedUser.getId());
         Long userId = userService.updateUser(userMapper.toEntity(userDto));
         return ResponseEntity.ok(userId);
+    }
+
+    @PostMapping("/login")
+    public TokenInfo login(@RequestBody LoginRequestDto loginRequestDto) {
+        String email = loginRequestDto.getEmail();
+        String password = loginRequestDto.getPassword();
+        return userService.login(email, password);
     }
 
     @GetMapping(value = "/mypage")
