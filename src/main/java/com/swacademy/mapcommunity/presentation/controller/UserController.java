@@ -9,7 +9,6 @@ import com.swacademy.mapcommunity.presentation.dto.*;
 import com.swacademy.mapcommunity.presentation.mapper.CommentMapper;
 import com.swacademy.mapcommunity.presentation.mapper.PostMapper;
 import com.swacademy.mapcommunity.presentation.mapper.UserMapper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +38,8 @@ public class UserController {
 
     //@Todo Long -> UUID
     @PostMapping(value = "/signup")
-    public ResponseEntity<Long> create(@RequestBody UserDto userDto) {
-        Long userId = userService.saveUser(userMapper.toEntity(userDto));
+    public ResponseEntity<Long> create(@RequestBody SignupRequestDTO signupRequestDTO) {
+        Long userId = userService.saveUser(userMapper.toEntity(signupRequestDTO));
         return ResponseEntity.ok(userId);
     }
 
