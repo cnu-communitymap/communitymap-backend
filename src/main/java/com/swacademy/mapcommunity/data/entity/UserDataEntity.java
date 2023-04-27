@@ -1,17 +1,22 @@
 package com.swacademy.mapcommunity.data.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
 @Getter @Setter
-public class UserDataEntity extends BaseInformation {
+public class UserDataEntity extends BaseInformation implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)  //@Todo Long -> UUID and UUID.random
     @Column(name = "id", nullable = false, insertable = false, updatable = false)
@@ -33,6 +38,10 @@ public class UserDataEntity extends BaseInformation {
     @Column(name = "birth", columnDefinition = "DATE")
     private LocalDate birth;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostDataEntity> posts = new ArrayList<>();
 
@@ -45,6 +54,11 @@ public class UserDataEntity extends BaseInformation {
         this.nickname = userDataEntity.getNickname();
         this.gender = userDataEntity.getGender();
         this.birth = userDataEntity.getBirth();
+    }
+
+    ///실험용
+    public UserDataEntity() {
+        roles.add("USER");
     }
 
     public void addPost(PostDataEntity post) {
@@ -79,4 +93,35 @@ public class UserDataEntity extends BaseInformation {
         this.gender = this.gender == null ? Gender.NONE : this.gender;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
